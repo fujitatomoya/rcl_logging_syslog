@@ -4,7 +4,9 @@
 
 [rcl_logging_syslog](https://github.com/fujitatomoya/rcl_logging_syslog) uses [SYSLOG(3)](https://man7.org/linux/man-pages/man3/syslog.3.html) to send the log data to [rsyslog](https://www.rsyslog.com/) a.k.a **rocket-fast system for log processing** 🚀🚀🚀.
 
-// INSERT OVERVIEW ONE PAGE
+The main objective is that **Enabling ROS 2 logging system with Cloud-Native Log Management and Observability**.
+
+![Architecture Overview](./doc/images/architecture_overview.png)
 
 ## Motivation
 
