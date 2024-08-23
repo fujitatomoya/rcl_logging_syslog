@@ -1,0 +1,12 @@
+##############################################################
+#
+# List of approvers/reviewers for rcl_logging_syslog
+#
+##############################################################
+#
+# Learn about CODEOWNERS file format:
+#  https://help.github.com/en/articles/about-code-owners
+#
+
+# These owners will be the default owners for everything in the repo.
+* @fujitatomoya
