@@ -2,11 +2,11 @@
 
 [rcl_logging_syslog](https://github.com/fujitatomoya/rcl_logging_syslog) is alternative logging backend implementation that can be used for [ROS 2](https://github.com/ros2) application via [rcl_logging_interface](https://github.com/ros2/rcl_logging/tree/rolling/rcl_logging_interface).
 
-[rcl_logging_syslog](https://github.com/fujitatomoya/rcl_logging_syslog) uses [SYSLOG(3)](https://man7.org/linux/man-pages/man3/syslog.3.html) to send the log data to [rsyslog](https://www.rsyslog.com/) a.k.a **rocket-fast system for log processing** 🚀🚀🚀.
+[rcl_logging_syslog](https://github.com/fujitatomoya/rcl_logging_syslog) uses [SYSLOG(3)](https://man7.org/linux/man-pages/man3/syslog.3.html) to send the log data to [rsyslog](https://www.rsyslog.com/) a.k.a **rocket-fast system for log processing** 🚀.
 
 The main objective is that **Enabling ROS 2 logging system with Cloud-Native Log Management and Observability**.
 
-![Architecture Overview](./doc/images/architecture_overview.png)
+<img src="./doc/images/architecture_overview.png" width="700">
 
 ## Motivation
 
