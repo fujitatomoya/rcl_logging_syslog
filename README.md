@@ -54,7 +54,7 @@ apt install rsyslog
 If you are running the application on host system, check the `rsyslog` system service.
 
 ```bash
-systemctl status rsyslod
+systemctl status rsyslog
 ```
 
 If you are running the application on container environment, start the `rsyslogd` daemon process.
@@ -63,7 +63,7 @@ If you are running the application on container environment, start the `rsyslogd
 /usr/sbin/rsyslogd -n -iNONE
 ```
 
-- (Optional) [fluent-bit](https://github.com/fluent/fluent-bit) installation
+- [fluent-bit](https://github.com/fluent/fluent-bit) installation
 
 if you want to use `fluent-bit` to forward the logging data from `rsyslogd`, please follow [Fluent Bit Installation Manual](https://docs.fluentbit.io/manual/installation/linux/ubuntu) to install it.
 
@@ -146,7 +146,7 @@ systemctl status rsyslog
 /usr/sbin/rsyslogd -n -iNONE
 ```
 
-#### (Optional) [fluent-bit](https://github.com/fluent/fluent-bit)
+#### [fluent-bit](https://github.com/fluent/fluent-bit)
 
 With above configuration, `rsyslogd` also sends log data to TCP port 5140 that `fluent-bit` listens with the following configuration.
 Replace `<FLUENTBIT_IP>` with your own IP address in `fluent-bit.conf`.
