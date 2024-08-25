@@ -20,7 +20,9 @@ So that user can choose the logging configuration depending on the application r
 
 ## Demonstration
 
-// INSERT FluentBit video demonstration
+See how it works 🔥
+
+https://github.com/user-attachments/assets/bdb05bf7-92b2-4b9a-8f20-3d3b803a7a86
 
 ## Supported [ROS Distribution](https://docs.ros.org/en/rolling/Releases.html)
 
