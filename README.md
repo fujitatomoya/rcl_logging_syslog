@@ -8,6 +8,8 @@ The main objective is that **Enabling ROS 2 logging system with Cloud-Native Log
 
 <img src="./doc/images/architecture_overview.png" width="700">
 
+see [overview slide deck](https://raw.githack.com/fujitatomoya/rcl_logging_syslog/main/doc/overview.html) for more information.
+
 ## Motivation
 
 The logging data is critical especially for entire system observability and status, so that application can alert the administrator or even give the feedback to the system with adjusting the parameter.
