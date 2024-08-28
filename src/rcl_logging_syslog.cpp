@@ -17,6 +17,8 @@
 #include <stdarg.h>
 #include <syslog.h>
 
+#include <memory>
+
 #include <rcl_logging_interface/rcl_logging_interface.h>
 
 #include <rcpputils/env.hpp>
@@ -29,6 +31,10 @@
 #include <rcutils/snprintf.h>
 #include <rcutils/strdup.h>
 #include <rcutils/time.h>
+
+// see https://codebrowser.dev/glibc/glibc/misc/syslog.c.html#LogTag
+// This memory needs to be kept until closelog()
+static std::shared_ptr<std::string> syslog_identity;
 
 static int rcutil_to_syslog_level(int rcutil_level)
 {
@@ -61,6 +67,13 @@ rcl_logging_ret_t rcl_logging_external_initialize(
   rcutils_allocator_t allocator)
 {
   RCUTILS_CHECK_ALLOCATOR(&allocator, return RCL_LOGGING_RET_INVALID_ARGUMENT);
+
+  // It is possible for this to get called more than once in a process (some of
+  // the tests do this implicitly by calling rclcpp::init more than once).
+  // If the logger is already setup, don't do anything.
+  if (syslog_identity != nullptr) {
+    return RCL_LOGGING_RET_OK;
+  }
 
   bool config_file_provided = (nullptr != config_file) && (config_file[0] != '\0');
   if (config_file_provided) {
@@ -106,11 +119,12 @@ rcl_logging_ret_t rcl_logging_external_initialize(
   {
     allocator.deallocate(basec, allocator.state);
   });
+  syslog_identity = std::make_shared<std::string>(basec);
 
   // Use user specified filename, or executable name to openlog(3) identity.
   // TODO(@fujitatomoya): facility should be set by environmental variable,
   // so that user can control the log facility as it set on rsyslog.conf.
-  openlog(basec, LOG_PID, LOG_LOCAL1);
+  openlog(syslog_identity->c_str(), LOG_PID, LOG_LOCAL1);
 
   return RCL_LOGGING_RET_OK;
 }
@@ -118,6 +132,7 @@ rcl_logging_ret_t rcl_logging_external_initialize(
 rcl_logging_ret_t rcl_logging_external_shutdown()
 {
   closelog();
+  syslog_identity = nullptr;
   return RCL_LOGGING_RET_OK;
 }
 

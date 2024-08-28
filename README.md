@@ -118,12 +118,8 @@ Add the following configuration to `/etc/rsyslog.conf`, replace `<FLUENTBIT_IP>`
 # ROS Setting
 #
 
-$template TemplateName1,"%timereported% %hostname% %syslogfacility-text%.%syslogseverity-text%: %syslogtag%%msg:::sp-if-no-1s\
-t-sp%%msg:::drop-last-lf%\n"
-
-# TODO(@fujitatomoya): template property does not work in container.
-#$template TemplateName2,"/var/log/ros/%hostname%/%programname%_%procid%_%$now%.log"
-$template TemplateName2,"/var/log/ros/%hostname%/pid_%procid%-%$now%.log"
+$template TemplateName1,"%timereported% %hostname% %syslogfacility-text%.%syslogseverity-text%: %syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
+$template TemplateName2,"/var/log/ros/%hostname%/%programname%_%procid%_%$now%.log"
 
 # Log locally with specified templated file name.
 local1.* ?TemplateName2;TemplateName1
@@ -205,21 +201,20 @@ ros2 run demo_nodes_cpp talker
 
 Logging files under file system:
 
+With example configuration and template above, file name is `<PROGRAMNAME>_<PID>_<YEAR>-<MONTH>-<DATE>.log`.
+And log data is prefixed with hostname, facility name, log level and program name as well.
+
 ```bash
-find /var/log/ros/
-/var/log/ros/
-/var/log/ros/tomoyafujita
-/var/log/ros/tomoyafujita/pid_2594-2024-08-23.log
+root@tomoyafujita:/var/log# find ros
+ros
+ros/tomoyafujita
+ros/tomoyafujita/talker_31348_2024-08-28.log
 
-cat /var/log/ros/tomoyafujita/pid_2594-2024-08-23.log
-Aug 23 16:02:05 tomoyafujita local1.info: `▒▒J[2594]: 4]: [INFO] [1724454125.014384556] [talker]: Publishing: 'Hello World: 1'
-Aug 23 16:02:06 tomoyafujita local1.info: `▒▒J[2594]: 4]: [INFO] [1724454126.014415486] [talker]: Publishing: 'Hello World: 2'
-Aug 23 16:02:07 tomoyafujita local1.info: `▒▒J[2594]: 4]: [INFO] [1724454127.014399261] [talker]: Publishing: 'Hello World: 3'
-Aug 23 16:02:07 tomoyafujita local1.info: `▒▒J[2594]: 4]: [INFO] [1724454127.648797600] [rclcpp]: signal_handler(signum=2)
+root@tomoyafujita:/var/log# cat ros/tomoyafujita/talker_31348_2024-08-28.log
+Aug 28 11:30:18 tomoyafujita local1.info: talker[31348]: [INFO] [1724869818.620827927] [talker]: Publishing: 'Hello World: 1'
+Aug 28 11:30:19 tomoyafujita local1.info: talker[31348]: [INFO] [1724869819.620758249] [talker]: Publishing: 'Hello World: 2'
+Aug 28 11:30:20 tomoyafujita local1.info: talker[31348]: [INFO] [1724869820.620777277] [talker]: Publishing: 'Hello World: 3'
 ```
-
-> [!WARNING]
-> Some properties do not work container environment, need to address these issues.
 
 FluentBit output:
 
@@ -246,10 +241,10 @@ ______ _                  _    ______ _ _           _____  __
 [2024/08/23 16:02:00] [ info] [in_syslog] TCP server binding 43.135.146.89:5140
 [2024/08/23 16:02:00] [ info] [sp] stream processor started
 [2024/08/23 16:02:00] [ info] [output:stdout:stdout.0] worker #0 started
-[0] syslog.0: [[1724428925.000000000, {}], {"pri"=>"142", "time"=>"Aug 23 16:02:05", "host"=>"tomoyafujita", "message"=>"4]: [INFO] [1724454125.014384556] [talker]: Publishing: 'Hello World: 1'"}]
-[0] syslog.0: [[1724428926.000000000, {}], {"pri"=>"142", "time"=>"Aug 23 16:02:06", "host"=>"tomoyafujita", "message"=>"4]: [INFO] [1724454126.014415486] [talker]: Publishing: 'Hello World: 2'"}]
-[0] syslog.0: [[1724428927.000000000, {}], {"pri"=>"142", "time"=>"Aug 23 16:02:07", "host"=>"tomoyafujita", "message"=>"4]: [INFO] [1724454127.014399261] [talker]: Publishing: 'Hello World: 3'"}]
-[0] syslog.0: [[1724428927.000000000, {}], {"pri"=>"142", "time"=>"Aug 23 16:02:07", "host"=>"tomoyafujita", "message"=>"4]: [INFO] [1724454127.648797600] [rclcpp]: signal_handler(signum=2)"}]
+...
+[0] syslog.0: [[1724844661.000000000, {}], {"pri"=>"142", "time"=>"Aug 28 11:31:01", "host"=>"tomoyafujita", "ident"=>"talker", "pid"=>"31348", "message"=>"[INFO] [1724869861.620769614] [talker]: Publishing: 'Hello World: 44'"}]
+[0] syslog.0: [[1724844662.000000000, {}], {"pri"=>"142", "time"=>"Aug 28 11:31:02", "host"=>"tomoyafujita", "ident"=>"talker", "pid"=>"31348", "message"=>"[INFO] [1724869862.620773450] [talker]: Publishing: 'Hello World: 45'"}]
+[0] syslog.0: [[1724844663.000000000, {}], {"pri"=>"142", "time"=>"Aug 28 11:31:03", "host"=>"tomoyafujita", "ident"=>"talker", "pid"=>"31348", "message"=>"[INFO] [1724869863.620773763] [talker]: Publishing: 'Hello World: 46'"}]
 ...
 ```
 
