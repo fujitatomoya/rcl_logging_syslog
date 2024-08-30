@@ -192,7 +192,6 @@ Start ROS 2 demo application:
 
 ```bash
 ros2 run demo_nodes_cpp talker
-[WARN] [1724453269.434832744] []: syslog logging backend doesn't support external configuration, configure rsyslogd.conf instead of /root/.ros/log log directory
 [INFO] [1724453270.445092186] [talker]: Publishing: 'Hello World: 1'
 [INFO] [1724453271.444981999] [talker]: Publishing: 'Hello World: 2'
 [INFO] [1724453272.445056310] [talker]: Publishing: 'Hello World: 3'

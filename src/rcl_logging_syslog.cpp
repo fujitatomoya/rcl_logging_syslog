@@ -36,6 +36,8 @@
 // This memory needs to be kept until closelog()
 static std::shared_ptr<std::string> syslog_identity;
 
+static const char *logger_name = "rcl_logging_syslog";
+
 static int rcutil_to_syslog_level(int rcutil_level)
 {
   int syslog_level;
@@ -79,8 +81,9 @@ rcl_logging_ret_t rcl_logging_external_initialize(
   if (config_file_provided) {
     // rsyslog does not have much configuration for user API, most of the configuration
     // needs to be set in /etc/rsyslog.conf file instead.
-    RCUTILS_LOG_WARN(
-      "syslog logging backend doesn't support external configuration, use rsyslogd.conf instead");
+    RCUTILS_LOG_WARN_NAMED(
+      logger_name,
+      "syslog logging backend doesn't have client configuration, use rsyslogd.conf instead");
   }
 
   char * logdir = nullptr;
@@ -91,7 +94,8 @@ rcl_logging_ret_t rcl_logging_external_initialize(
   } else {
     // rsyslog does not allow user to create or specify logging directory via API.
     // Most of the configuration needs to be set in /etc/rsyslog.conf file instead.
-    RCUTILS_LOG_WARN(
+    RCUTILS_LOG_DEBUG_NAMED(
+      logger_name,
       "syslog logging backend doesn't support external configuration, "
       "configure rsyslogd.conf instead of %s log directory", logdir);
   }
@@ -100,9 +104,10 @@ rcl_logging_ret_t rcl_logging_external_initialize(
     allocator.deallocate(logdir, allocator.state);
   });
 
-  // TODO(@fujitatomoya): add more warning and doc section here about filename.
-  // rsyslog.conf defines the filename if the logging destination is the file system.
-  // depends on rsyslog settting, there will be no file at all.
+  RCUTILS_LOG_DEBUG_NAMED(
+    logger_name,
+    "executable or file name will be used for openlog(*identification), "
+    "to change the log file name on file system, configure /etc/rsyslogd.conf instead");
 
   bool file_name_provided = (nullptr != file_name_prefix) && (file_name_prefix[0] != '\0');
   char * basec;
