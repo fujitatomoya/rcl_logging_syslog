@@ -104,8 +104,15 @@ colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging
 [SYSLOG(3)](https://man7.org/linux/man-pages/man3/syslog.3.html) is really simple that does not have much interfaces to control on application side, it just writes the log data on `rsyslog` Unix Domain Socket.
 So we need to configure `rsyslog` how it manages the log message with `/etc/rsyslog.conf`, for example file system sink and forward the message to `fluent-bit`.
 
-At this moment, `rcl_logging_syslog` uses syslog facility only `local1`.
-More facilities should be supported in the future via environmental variables at `rcl_logging_syslog` initialization, so that user application can use appropriate facility configured by `rsyslog`.
+| environmental variable | default | Note |
+| :----------------------| :------ | :--- |
+| `RCL_LOGGING_SYSLOG_FACILITY` | `LOG_LOCAL1` | [syslog facility](https://man7.org/linux/man-pages/man3/syslog.3.html): either of `LOG_CRON`, `LOG_DAEMON`, `LOG_SYSLOG`, `LOG_USER`, and `LOG_LOCAL0-7`. (`/etc/rsyslog.conf` must be configured accordingly.) |
+
+Examples:
+
+```bash
+export RCL_LOGGING_SYSLOG_FACILITY="LOG_LOCAL4"
+```
 
 See more details for https://www.rsyslog.com/doc/index.html.
 

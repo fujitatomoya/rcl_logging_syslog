@@ -18,6 +18,7 @@
 #include <syslog.h>
 
 #include <memory>
+#include <system_error>
 
 #include <rcl_logging_interface/rcl_logging_interface.h>
 
@@ -32,11 +33,91 @@
 #include <rcutils/strdup.h>
 #include <rcutils/time.h>
 
+static const char * facility_env_name = "RCL_LOGGING_SYSLOG_FACILITY";
+
 // see https://codebrowser.dev/glibc/glibc/misc/syslog.c.html#LogTag
 // This memory needs to be kept until closelog()
 static std::shared_ptr<std::string> syslog_identity;
 
 static const char *logger_name = "rcl_logging_syslog";
+
+typedef struct facility_index {
+  const char *c_name;
+  const int c_value;
+} FACILITY_INDEX;
+
+const FACILITY_INDEX facility_table[] =
+  {
+    { "LOG_CRON", LOG_CRON },
+    { "LOG_DAEMON", LOG_DAEMON },
+    { "LOG_SYSLOG", LOG_SYSLOG },
+    { "LOG_USER", LOG_USER },
+    { "LOG_LOCAL0", LOG_LOCAL0 },
+    { "LOG_LOCAL1", LOG_LOCAL1 },
+    { "LOG_LOCAL2", LOG_LOCAL2 },
+    { "LOG_LOCAL3", LOG_LOCAL3 },
+    { "LOG_LOCAL4", LOG_LOCAL4 },
+    { "LOG_LOCAL5", LOG_LOCAL5 },
+    { "LOG_LOCAL6", LOG_LOCAL6 },
+    { "LOG_LOCAL7", LOG_LOCAL7 },
+    { NULL, -1 }
+  };
+
+static const char *get_facility_name(int facility) {
+  for (auto f = facility_table; f->c_name != NULL; f++) {
+      if (f->c_value == facility) {
+          return f->c_name;
+      }
+  }
+  return "Unknown facility";
+}
+
+static int get_syslog_facility(void)
+{
+  // default is LOG_LOCAL1
+  int syslog_facility = LOG_LOCAL1;
+
+  try {
+    std::string facility_string = rcpputils::get_env_var(facility_env_name);
+    if (facility_string.empty()) {
+      return syslog_facility;
+    }
+
+    if (!facility_string.compare("LOG_USER")) {
+      syslog_facility = LOG_USER;
+    } else if (!facility_string.compare("LOG_DAEMON")) {
+      syslog_facility = LOG_DAEMON;
+    } else if (!facility_string.compare("LOG_SYSLOG")) {
+      syslog_facility = LOG_SYSLOG;
+    } else if (!facility_string.compare("LOG_CRON")) {
+      syslog_facility = LOG_CRON;
+    } else if (!facility_string.compare("LOG_LOCAL0")) {
+      syslog_facility = LOG_LOCAL0;
+    } else if (!facility_string.compare("LOG_LOCAL1")) {
+      syslog_facility = LOG_LOCAL1;
+    } else if (!facility_string.compare("LOG_LOCAL2")) {
+      syslog_facility = LOG_LOCAL2;
+    } else if (!facility_string.compare("LOG_LOCAL3")) {
+      syslog_facility = LOG_LOCAL3;
+    } else if (!facility_string.compare("LOG_LOCAL4")) {
+      syslog_facility = LOG_LOCAL4;
+    } else if (!facility_string.compare("LOG_LOCAL5")) {
+      syslog_facility = LOG_LOCAL5;
+    } else if (!facility_string.compare("LOG_LOCAL6")) {
+      syslog_facility = LOG_LOCAL6;
+    } else if (!facility_string.compare("LOG_LOCAL7")) {
+      syslog_facility = LOG_LOCAL7;
+    } else {
+      syslog_facility = LOG_LOCAL1;
+    }
+  } catch (const std::runtime_error & error) {
+    throw std::runtime_error(
+            std::string("failed to get env var '") + facility_env_name + "': " + error.what()
+    );
+  }
+
+  return syslog_facility;
+}
 
 static int rcutil_to_syslog_level(int rcutil_level)
 {
@@ -126,10 +207,14 @@ rcl_logging_ret_t rcl_logging_external_initialize(
   });
   syslog_identity = std::make_shared<std::string>(basec);
 
+  // Check and fetch the syslog facility from environmental variable
+  int syslog_facility = get_syslog_facility();
+  RCUTILS_LOG_DEBUG_NAMED(
+    logger_name,
+    "syslog facility is set to %s", get_facility_name(syslog_facility));
+
   // Use user specified filename, or executable name to openlog(3) identity.
-  // TODO(@fujitatomoya): facility should be set by environmental variable,
-  // so that user can control the log facility as it set on rsyslog.conf.
-  openlog(syslog_identity->c_str(), LOG_PID, LOG_LOCAL1);
+  openlog(syslog_identity->c_str(), LOG_PID, syslog_facility);
 
   return RCL_LOGGING_RET_OK;
 }
