@@ -111,27 +111,17 @@ So we need to configure `rsyslog` how it manages the log message with `/etc/rsys
 Examples:
 
 ```bash
-export RCL_LOGGING_SYSLOG_FACILITY="LOG_LOCAL4"
+export RCL_LOGGING_SYSLOG_FACILITY="LOG_LOCAL2"
 ```
 
 See more details for https://www.rsyslog.com/doc/index.html.
 
 #### `rsyslog`
 
-Add the following configuration to `/etc/rsyslog.conf`, replace `<FLUENTBIT_IP>` with your own IP address where `fluent-bit` runs.
+Copy [ros-logging.conf](./config/ros2-logging.conf) to `/etc/rsyslog.d/`, and replace `<FLUENTBIT_IP>` with your own IP address where `fluent-bit` listens on.
 
 ```bash
-#
-# ROS Setting
-#
-
-$template TemplateName1,"%timereported% %hostname% %syslogfacility-text%.%syslogseverity-text%: %syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
-$template TemplateName2,"/var/log/ros/%hostname%/%programname%_%procid%_%$now%.log"
-
-# Log locally with specified templated file name.
-local1.* ?TemplateName2;TemplateName1
-# For remote server, it also needs to set those templates
-local1.* @@<FLUENTBIT_IP>:5140
+sudo cp ./config/ros2-logging.conf /etc/rsyslog.d/
 ```
 
 Check the configuration file to see if there is no error,
