@@ -5,7 +5,7 @@ on:
     branches: [ rolling ]
 
 jobs:
-  mirror-to-main:
+  mirror-to-master:
     runs-on: ubuntu-latest
     steps:
     - uses: zofrex/mirror-branch@v1
