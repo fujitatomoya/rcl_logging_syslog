@@ -167,7 +167,7 @@ while true; do ros2 run demo_nodes_cpp add_two_ints_client; sleep 1; done
 
 you can now access http://<YOUR_IP_ADDRESS>:3000/ to explore the log data with Grafana.
 
-/// INSERT VIDEO HERE ///
+https://github.com/user-attachments/assets/211a6dd0-0be7-4758-9310-2d8f2232da07
 
 ## Reference
 
