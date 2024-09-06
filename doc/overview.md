@@ -55,12 +55,22 @@ Even more, this architecture can take advantage of Cloud-Native services and too
 
 ---
 
-# [Let's see how this works!](https://github.com/user-attachments/assets/bdb05bf7-92b2-4b9a-8f20-3d3b803a7a86)
+# [Demo FluentBit](https://github.com/user-attachments/assets/bdb05bf7-92b2-4b9a-8f20-3d3b803a7a86)
 
 <video controls="controls" width="1000" src="https://github.com/user-attachments/assets/bdb05bf7-92b2-4b9a-8f20-3d3b803a7a86">
 
 <!---
-# This needs to be updated once new example is available such as Grafana Loki.
+Comment Here
+--->
+
+---
+
+# [Demo Fluentd/Loki/Grafana](https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca)
+
+<video controls="controls" width="1100" src="https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca">
+
+<!---
+Comment Here
 --->
 
 ---
