@@ -24,7 +24,17 @@ So that user can choose the logging configuration depending on the application r
 
 See how it works 🔥
 
+- rsyslog / FluebtBit
+
 https://github.com/user-attachments/assets/bdb05bf7-92b2-4b9a-8f20-3d3b803a7a86
+
+- rsyslog / Fluentd / Loki / Grafana
+
+https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca
+
+## Tutorials
+
+- [How to integrate with Fluentd / Loki / Grafana](./doc/tutorials/Fluentd_Loki_Grafana.md)
 
 ## Supported [ROS Distribution](https://docs.ros.org/en/rolling/Releases.html)
 

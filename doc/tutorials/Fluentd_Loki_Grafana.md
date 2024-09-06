@@ -1,5 +1,29 @@
 # How to forward the ros2 log data to [Fluentd](https://www.fluentd.org/) / [Loki](https://grafana.com/oss/loki/) / [Grafana](https://grafana.com/oss/grafana/)
 
+## Overview
+
+```text
+                   +------------------------------------------------+
+                   |                                                |
+                   |   +---------+                                  |
++--------+ 514/udp |   |         |                                  |
+| client +------------->         |                                  |
++--------+         |   |         |                                  |
+                   |   | rsyslog |                                  |
++--------+ 514/udp |   |         |                                  |
+| client +------------->         |                                  |
++--------+         |   |         |                                  |
+                   |   +----+----+                                  |
+                   |        |                                       |
+                   |        | 5514/tcp                              |
+                   |        |                                   http/3000
+                   |   +----v-----+  +----------+  +------------+   |  +-----------+
+                   |   | fluentd  +-->   loki   +-->  grafana   +------>  Browser  |
+                   |   +----------+  +----------+  +------------+   |  +-----------+
+                   |                   http/3100                    |
+                   +------------------------------------------------+
+```
+
 ## Installation
 
 - [Loki](https://grafana.com/oss/loki/) / [Grafana](https://grafana.com/oss/grafana/)
