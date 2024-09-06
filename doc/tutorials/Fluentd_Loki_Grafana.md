@@ -148,7 +148,7 @@ systemctl status rsyslog
 
 ```bash
 ### Stop system service for now
-sudo systemctl stop fluend
+sudo systemctl stop fluentd
 
 ### Start fluentd
 fluentd -c ros2-fluentd.conf
