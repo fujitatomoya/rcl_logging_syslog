@@ -41,6 +41,24 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  # cppcheck 1.90 doesn't understand some of the syntax in spdlog's bundled fmt
+  # code.  Since we already have cppcheck disabled on Linux, just disable it
+  # completely for this package.
+  list(APPEND AMENT_LINT_AUTO_EXCLUDE
+    ament_cmake_cppcheck
+  )
+  ament_lint_auto_find_test_dependencies()
+
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gmock(test_logging_interface test/test_logging_interface.cpp)
+  if(TARGET test_logging_interface)
+    target_link_libraries(test_logging_interface ${PROJECT_NAME} rcpputils::rcpputils)
+    target_compile_definitions(test_logging_interface PUBLIC RCUTILS_ENABLE_FAULT_INJECTION)
+  endif()
+endif()
+
 ament_export_libraries(${PROJECT_NAME})
 ament_export_targets(${PROJECT_NAME})
 ament_package()
