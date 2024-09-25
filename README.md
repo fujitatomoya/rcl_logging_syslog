@@ -109,6 +109,22 @@ export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
 colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_syslog rcl
 ```
 
+### Test
+
+Following to the previous build procedure, we need to copy [ros2-test.conf](./config/ros2-test.conf) to `/etc/rsyslog.d/`, and restart the `rsyslog`.
+
+```bash
+sudo cp ./config/ros2-test.conf /etc/rsyslog.d/
+```
+
+Then we can start the `colcon test`:
+
+This test creates and uses `/var/log/rcl_logging_syslog` directory in temporary for the test, and it checks the file existence and contents using `rcl_logging_syslog`.
+
+```bash
+colcon test --event-handlers console_direct+ --packages-select rcl_logging_syslog
+```
+
 ### Configuration
 
 [SYSLOG(3)](https://man7.org/linux/man-pages/man3/syslog.3.html) is really simple that does not have much interfaces to control on application side, it just writes the log data on `rsyslog` Unix Domain Socket.
@@ -128,7 +144,7 @@ See more details for https://www.rsyslog.com/doc/index.html.
 
 #### `rsyslog`
 
-Copy [ros-logging.conf](./config/ros2-logging.conf) to `/etc/rsyslog.d/`, and replace `<FLUENTBIT_IP>` with your own IP address where `fluent-bit` listens on.
+Copy [ros2-logging.conf](./config/ros2-logging.conf) to `/etc/rsyslog.d/`, and replace `<FLUENTBIT_IP>` with your own IP address where `fluent-bit` listens on.
 
 ```bash
 sudo cp ./config/ros2-logging.conf /etc/rsyslog.d/
