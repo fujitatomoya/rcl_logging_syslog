@@ -196,11 +196,11 @@ TEST_F(AllocatorTest, init_invalid)
 {
   EXPECT_EQ(
     RCL_LOGGING_RET_ERROR,
-    rcl_logging_external_initialize("file_name_prefix", nullptr, bad_allocator));
+    rcl_logging_external_initialize(nullptr, bad_allocator));
   rcutils_reset_error();
   EXPECT_EQ(
     RCL_LOGGING_RET_INVALID_ARGUMENT,
-    rcl_logging_external_initialize(nullptr, nullptr, invalid_allocator));
+    rcl_logging_external_initialize(nullptr, invalid_allocator));
   rcutils_reset_error();
 }
 
@@ -212,7 +212,7 @@ TEST_F(AllocatorTest, init_failure)
   // No home directory to write log to
   ASSERT_TRUE(rcpputils::set_env_var("HOME", nullptr));
   ASSERT_TRUE(rcpputils::set_env_var("USERPROFILE", nullptr));
-  EXPECT_EQ(RCL_LOGGING_RET_ERROR, rcl_logging_external_initialize(nullptr, nullptr, allocator));
+  EXPECT_EQ(RCL_LOGGING_RET_ERROR, rcl_logging_external_initialize(nullptr, allocator));
   rcutils_reset_error();
 }
 
@@ -225,7 +225,7 @@ TEST_F(AllocatorTest, init_valid)
   // Config files are not supported, and pass through with warning.
   EXPECT_EQ(
     RCL_LOGGING_RET_OK,
-    rcl_logging_external_initialize(nullptr, "config_file", allocator));
+    rcl_logging_external_initialize("config_file", allocator));
   rcutils_reset_error();
 }
 
@@ -234,26 +234,10 @@ TEST_F(LoggingTest, log_file_name_prefix)
   std::string log_file_path;
   // executable name in default
   {
-    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, nullptr, allocator));
+    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, allocator));
     write_something();
     EXPECT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_shutdown());
     EXPECT_NO_THROW(log_file_path = find_single_log(nullptr).string());
-    EXPECT_TRUE(remove_test_folder());
-  }
-  // falls back to executable name if not nullptr, but empty
-  {
-    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize("", nullptr, allocator));
-    write_something();
-    EXPECT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_shutdown());
-    EXPECT_NO_THROW(log_file_path = find_single_log(nullptr).string());
-    EXPECT_TRUE(remove_test_folder());
-  }
-  // specified by user application
-  {
-    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize("logger", nullptr, allocator));
-    write_something();
-    EXPECT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_shutdown());
-    EXPECT_NO_THROW(log_file_path = find_single_log("logger").string());
     EXPECT_TRUE(remove_test_folder());
   }
 }
@@ -264,7 +248,7 @@ TEST_F(LoggingTest, use_different_facilities)
 
   {
     // default facility, LOG_LOCAL1
-    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, nullptr, allocator));
+    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, allocator));
 
     std::stringstream expected_log;
     for (int level : logger_levels) {
@@ -300,7 +284,7 @@ TEST_F(LoggingTest, use_different_facilities)
   {
     // facility LOG_LOCAL2
     rcpputils::set_env_var("RCL_LOGGING_SYSLOG_FACILITY", "LOG_LOCAL2");
-    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, nullptr, allocator));
+    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, allocator));
 
     std::stringstream expected_log;
     for (int level : logger_levels) {
@@ -336,7 +320,7 @@ TEST_F(LoggingTest, use_different_facilities)
   {
     // facility LOG_LOCAL3
     rcpputils::set_env_var("RCL_LOGGING_SYSLOG_FACILITY", "LOG_LOCAL3");
-    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, nullptr, allocator));
+    ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, allocator));
 
     std::stringstream expected_log;
     for (int level : logger_levels) {
@@ -372,10 +356,10 @@ TEST_F(LoggingTest, use_different_facilities)
 
 TEST_F(LoggingTest, full_cycle)
 {
-  ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, nullptr, allocator));
+  ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, allocator));
 
   // Make sure we can call initialize more than once
-  ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, nullptr, allocator));
+  ASSERT_EQ(RCL_LOGGING_RET_OK, rcl_logging_external_initialize(nullptr, allocator));
 
   std::stringstream expected_log;
   for (int level : logger_levels) {

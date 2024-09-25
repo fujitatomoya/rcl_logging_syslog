@@ -39,11 +39,11 @@ static const char * facility_env_name = "RCL_LOGGING_SYSLOG_FACILITY";
 // This memory needs to be kept until closelog()
 static std::shared_ptr<std::string> syslog_identity;
 
-static const char *logger_name = "rcl_logging_syslog";
+static const char * logger_name = "rcl_logging_syslog";
 
 typedef struct facility_index
 {
-  const char *c_name;
+  const char * c_name;
   const int c_value;
 } FACILITY_INDEX;
 
@@ -139,7 +139,7 @@ static int rcutil_to_syslog_level(int rcutil_level)
   return syslog_level;
 }
 
-[[maybe_unused]] static void vlog_msg(int level, const char *format, ...)
+[[maybe_unused]] static void vlog_msg(int level, const char * format, ...)
 {
   va_list args;
   va_start(args, format);
