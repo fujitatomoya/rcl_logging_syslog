@@ -38,12 +38,12 @@ https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca
 
 ## Supported [ROS Distribution](https://docs.ros.org/en/rolling/Releases.html)
 
-| Distribution      | Supported | Note |
-| :---------------- | :-------- | :--- |
-| Rolling Ridley    |    ✅     | Development / Mainstream Branch |
-| Jazzy Jalisco     |    ⛔     | W.I.P (No distro specific dependency, should work.) |
-| Iron Irwini       |    ⛔     | W.I.P (No distro specific dependency, should work.) |
-| Humble Hawksbill  |    ⛔     | W.I.P (No distro specific dependency, should work.) |
+| Distribution      | Supported | Branch |
+| :---------------- | :-------- | :----- |
+| Rolling Ridley    |    ✅    | `rolling` (Development) |
+| Jazzy Jalisco     |    ✅    | `jazzy`  |
+| Iron Irwini       |    ✅    | `iron`   |
+| Humble Hawksbill  |    ✅    | `humble` |
 
 ## Installation
 
