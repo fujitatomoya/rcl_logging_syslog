@@ -145,7 +145,6 @@ static int rcutil_to_syslog_level(int rcutil_level)
 }
 
 rcl_logging_ret_t rcl_logging_external_initialize(
-  const char * file_name_prefix,
   const char * config_file,
   rcutils_allocator_t allocator)
 {
@@ -187,16 +186,10 @@ rcl_logging_ret_t rcl_logging_external_initialize(
 
   RCUTILS_LOG_DEBUG_NAMED(
     logger_name,
-    "executable or file name will be used for openlog(*identification), "
+    "executable name will be used for openlog(*identification), "
     "to change the log file name on file system, configure /etc/rsyslogd.conf instead");
 
-  bool file_name_provided = (nullptr != file_name_prefix) && (file_name_prefix[0] != '\0');
-  char * basec;
-  if (file_name_provided) {
-    basec = rcutils_strdup(file_name_prefix, allocator);
-  } else {  // otherwise, get the program name.
-    basec = rcutils_get_executable_name(allocator);
-  }
+  char * basec = rcutils_get_executable_name(allocator);
   if (basec == nullptr) {
     RCUTILS_LOG_ERROR("Failed to get the executable name");
     return RCL_LOGGING_RET_ERROR;
@@ -213,7 +206,7 @@ rcl_logging_ret_t rcl_logging_external_initialize(
     logger_name,
     "syslog facility is set to %s", get_facility_name(syslog_facility));
 
-  // Use user specified filename, or executable name to openlog(3) identity.
+  // Use executable name to openlog(3) identity.
   openlog(syslog_identity->c_str(), LOG_PID, syslog_facility);
 
   return RCL_LOGGING_RET_OK;
