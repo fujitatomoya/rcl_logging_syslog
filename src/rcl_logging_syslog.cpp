@@ -12,26 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include <syslog.h>
 
 #include <memory>
 #include <system_error>
 
-#include <rcl_logging_interface/rcl_logging_interface.h>
+#include "rcpputils/env.hpp"
+#include "rcpputils/scope_exit.hpp"
 
-#include <rcpputils/env.hpp>
-#include <rcpputils/scope_exit.hpp>
-
-#include <rcutils/allocator.h>
-#include <rcutils/logging.h>
+#include "rcutils/allocator.h"
+#include "rcutils/logging.h"
 #include "rcutils/logging_macros.h"
 #include "rcutils/process.h"
-#include <rcutils/snprintf.h>
-#include <rcutils/strdup.h>
-#include <rcutils/time.h>
+#include "rcutils/snprintf.h"
+#include "rcutils/strdup.h"
+#include "rcutils/time.h"
+
+#include "rcl_logging_interface/rcl_logging_interface.h"
 
 static const char * facility_env_name = "RCL_LOGGING_SYSLOG_FACILITY";
 
@@ -39,35 +39,37 @@ static const char * facility_env_name = "RCL_LOGGING_SYSLOG_FACILITY";
 // This memory needs to be kept until closelog()
 static std::shared_ptr<std::string> syslog_identity;
 
-static const char *logger_name = "rcl_logging_syslog";
+static const char * logger_name = "rcl_logging_syslog";
 
-typedef struct facility_index {
-  const char *c_name;
+typedef struct facility_index
+{
+  const char * c_name;
   const int c_value;
 } FACILITY_INDEX;
 
 const FACILITY_INDEX facility_table[] =
-  {
-    { "LOG_CRON", LOG_CRON },
-    { "LOG_DAEMON", LOG_DAEMON },
-    { "LOG_SYSLOG", LOG_SYSLOG },
-    { "LOG_USER", LOG_USER },
-    { "LOG_LOCAL0", LOG_LOCAL0 },
-    { "LOG_LOCAL1", LOG_LOCAL1 },
-    { "LOG_LOCAL2", LOG_LOCAL2 },
-    { "LOG_LOCAL3", LOG_LOCAL3 },
-    { "LOG_LOCAL4", LOG_LOCAL4 },
-    { "LOG_LOCAL5", LOG_LOCAL5 },
-    { "LOG_LOCAL6", LOG_LOCAL6 },
-    { "LOG_LOCAL7", LOG_LOCAL7 },
-    { NULL, -1 }
-  };
+{
+  {"LOG_CRON", LOG_CRON},
+  {"LOG_DAEMON", LOG_DAEMON},
+  {"LOG_SYSLOG", LOG_SYSLOG},
+  {"LOG_USER", LOG_USER},
+  {"LOG_LOCAL0", LOG_LOCAL0},
+  {"LOG_LOCAL1", LOG_LOCAL1},
+  {"LOG_LOCAL2", LOG_LOCAL2},
+  {"LOG_LOCAL3", LOG_LOCAL3},
+  {"LOG_LOCAL4", LOG_LOCAL4},
+  {"LOG_LOCAL5", LOG_LOCAL5},
+  {"LOG_LOCAL6", LOG_LOCAL6},
+  {"LOG_LOCAL7", LOG_LOCAL7},
+  {NULL, -1}
+};
 
-static const char *get_facility_name(int facility) {
+static const char * get_facility_name(int facility)
+{
   for (auto f = facility_table; f->c_name != NULL; f++) {
-      if (f->c_value == facility) {
-          return f->c_name;
-      }
+    if (f->c_value == facility) {
+      return f->c_name;
+    }
   }
   return "Unknown facility";
 }
@@ -137,7 +139,8 @@ static int rcutil_to_syslog_level(int rcutil_level)
   return syslog_level;
 }
 
-[[maybe_unused]] static void vlog_msg(int level, const char *format, ...) {
+[[maybe_unused]] static void vlog_msg(int level, const char * format, ...)
+{
   va_list args;
   va_start(args, format);
   vsyslog(level, format, args);
