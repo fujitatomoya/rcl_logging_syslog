@@ -63,6 +63,19 @@ In the case of container, we need to install `rsyslog` packages in the container
 apt install rsyslog
 ```
 
+- create `ros` directory for `rsyslog`.
+
+The following commands require `root` permission.
+`/var/log/ros` is the root directory for `rcl_logging_syslog`, all logs are expected to be stored under this root directory.
+
+```bash
+mkdir -p /var/log/ros
+chown syslog:adm /var/log/ros
+```
+
+> [!WARNING]
+> For production, user needs to configure appropriate group if necessary but owner should be `syslog`. Otherwise `rsyslogd` may meet the permission problem for the file system.
+
 - [rsyslog](https://www.rsyslog.com/) service check
 
 If you are running the application on host system, check the `rsyslog` system service.
@@ -119,7 +132,7 @@ sudo cp ./config/ros2-test.conf /etc/rsyslog.d/
 
 Then we can start the `colcon test`:
 
-This test creates and uses `/var/log/rcl_logging_syslog` directory in temporary for the test, and it checks the file existence and contents using `rcl_logging_syslog`.
+This test creates and uses `/var/log/ros/rcl_logging_syslog` directory in temporary for the test, and it checks the file existence and contents using `rcl_logging_syslog`.
 
 ```bash
 colcon test --event-handlers console_direct+ --packages-select rcl_logging_syslog
