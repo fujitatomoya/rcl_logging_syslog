@@ -130,16 +130,20 @@ public:
 
   void TearDown()
   {
-    if (std::filesystem::remove_all(test_log_dir_) == 0) {
-      std::cerr << "Failed to remove " << test_log_dir_.string() << " directory\n";
+    if (std::filesystem::exists(test_log_dir_) && std::filesystem::is_directory(test_log_dir_)) {
+      if (std::filesystem::remove_all(test_log_dir_) == 0) {
+        std::cerr << "Failed to remove " << test_log_dir_.string() << " directory\n";
+      }
     }
   }
 
   bool remove_test_folder()
   {
-    if (std::filesystem::remove_all(test_log_dir_) == 0) {
-      std::cerr << "Failed to remove " << test_log_dir_.string() << " directory\n";
-      return false;
+    if (std::filesystem::exists(test_log_dir_) && std::filesystem::is_directory(test_log_dir_)) {
+      if (std::filesystem::remove_all(test_log_dir_) == 0) {
+        std::cerr << "Failed to remove " << test_log_dir_.string() << " directory\n";
+        return false;
+      }
     }
     return true;
   }
