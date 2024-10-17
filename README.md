@@ -90,6 +90,9 @@ If you are running the application on container environment, start the `rsyslogd
 /usr/sbin/rsyslogd -n -iNONE
 ```
 
+Or you prefer to use `rsyslogd` in the host system from the application in the container, you need to bind the `/dev/log` to the container via `-v /dev/log:/dev/log`, so that the application running in the container can open the Unix Domain Socket for `rsyslogd` running in the host system.
+In this setting, all `rsyslogd` configuration needs to be set in the host system.
+
 - [fluent-bit](https://github.com/fluent/fluent-bit) installation
 
 if you want to use `fluent-bit` to forward the logging data from `rsyslogd`, please follow [Fluent Bit Installation Manual](https://docs.fluentbit.io/manual/installation/linux/ubuntu) to install it.
