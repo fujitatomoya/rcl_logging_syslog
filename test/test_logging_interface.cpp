@@ -121,9 +121,9 @@ class LoggingTest : public ::testing::Test
 public:
   void SetUp()
   {
-    // test log files will be created under /var/log/rcl_logging_syslog/xxx.
+    // test log files will be created under /var/log/ros/rcl_logging_syslog/xxx.
     // rcl_logging_syslog folder will be created by rsyslog when it is writing.
-    var_log_ = std::filesystem::path("/var/log");
+    var_log_ = std::filesystem::path("/var/log/ros");
     ASSERT_TRUE(std::filesystem::exists(var_log_));
     test_log_dir_ = var_log_ / "rcl_logging_syslog";
   }
