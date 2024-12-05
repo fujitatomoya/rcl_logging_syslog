@@ -34,7 +34,7 @@ function install_prerequisites () {
     apt update && apt upgrade -y
     apt install -y git
     # TODO(@fujitatomoya) probably we should use rosdep to install dependencies to build
-    apt install -y ros-rolling-mimick-vendor ros-rolling-performance-test-fixture ros-rolling-test-msgs
+    apt install -y ros-${ROS_DISTRO}-mimick-vendor ros-${ROS_DISTRO}-performance-test-fixture ros-${ROS_DISTRO}-test-msgs
     #apt install -y ros-${ROS_DISTRO}-desktop --no-install-recommends
     cd $there
 }
