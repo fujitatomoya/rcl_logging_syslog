@@ -1,0 +1,49 @@
+pull_request_rules:
+  - name: automatic backport to all supported distribution
+    description: |
+      This rule backports a PR to all supported distribution branches when it is merged.
+    conditions:
+      - base=rolling
+      - merged
+    actions:
+      backport:
+        branches:
+          - jazzy
+          - humble
+
+  - name: backport at reviewers discretion
+    description: |
+      This rule backports a PR to all supported distribution branches when it is labeled.
+    conditions:
+      - base=rolling
+      - "label=backport-all"
+      - merged
+    actions:
+      backport:
+        branches:
+          - jazzy
+          - humble
+
+  - name: backport to jazzy at reviewers discretion
+    description: |
+      This rule backports a PR to the jazzy distribution branch when it is labeled.
+    conditions:
+      - base=rolling
+      - "label=backport-jazzy"
+      - merged
+    actions:
+      backport:
+        branches:
+          - jazzy
+
+  - name: backport to humble at reviewers discretion
+    description: |
+      This rule backports a PR to the humble distribution branch when it is labeled.
+    conditions:
+      - base=rolling
+      - "label=backport-humble"
+      - merged
+    actions:
+      backport:
+        branches:
+          - humble
