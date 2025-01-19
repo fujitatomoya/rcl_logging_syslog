@@ -1,4 +1,5 @@
-name: Nightly Build for rolling
+# This is nightly workflow for each distribution
+name: Nightly Build for distribution
 
 on:
   schedule:
