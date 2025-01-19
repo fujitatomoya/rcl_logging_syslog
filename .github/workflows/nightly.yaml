@@ -1,4 +1,5 @@
-name: Nightly Build for rolling
+# This is nightly workflow for each distribution
+name: Nightly Build for distribution
 
 on:
   schedule:
@@ -11,13 +12,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ros:rolling
+      image: ros:jazzy
       env:
-        ROS_DISTRO: rolling
+        ROS_DISTRO: jazzy
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: Build and Test with ROS rolling
+      - name: Build and Test with ROS jazzy
         shell: bash
         run: |
           ./scripts/github_workflows.sh
