@@ -12,13 +12,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ros:rolling
+      image: ros:humble
       env:
-        ROS_DISTRO: rolling
+        ROS_DISTRO: humble
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: Build and Test with ROS rolling
+      - name: Build and Test with ROS humble
         shell: bash
         run: |
           ./scripts/github_workflows.sh
