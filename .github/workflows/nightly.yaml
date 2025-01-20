@@ -1,5 +1,4 @@
-# This is nightly workflow for each distribution
-name: Nightly Build for distribution
+name: Nightly Build for All Distributions
 
 on:
   schedule:
@@ -9,9 +8,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  nightly-build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch: [rolling, jazzy, humble]
     container:
+<<<<<<< HEAD
       image: ros:jazzy
       env:
         ROS_DISTRO: jazzy
@@ -19,6 +22,17 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Build and Test with ROS jazzy
+=======
+      image: ros:${{ matrix.branch }}
+      env:
+        ROS_DISTRO: ${{ matrix.branch }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ matrix.branch }}
+      - name: Build and Test
+>>>>>>> 8461273 (fix nightly workflow. (#82))
         shell: bash
         run: |
           ./scripts/github_workflows.sh
