@@ -14,15 +14,6 @@ jobs:
       matrix:
         branch: [rolling, jazzy, humble]
     container:
-<<<<<<< HEAD
-      image: ros:humble
-      env:
-        ROS_DISTRO: humble
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Build and Test with ROS humble
-=======
       image: ros:${{ matrix.branch }}
       env:
         ROS_DISTRO: ${{ matrix.branch }}
@@ -32,7 +23,6 @@ jobs:
         with:
           ref: ${{ matrix.branch }}
       - name: Build and Test
->>>>>>> 8461273 (fix nightly workflow. (#82))
         shell: bash
         run: |
           ./scripts/github_workflows.sh
