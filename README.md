@@ -11,7 +11,7 @@ The main objective is that **Enabling ROS 2 logging system with Cloud-Native Log
 
 <img src="./doc/images/architecture_overview.png" width="700">
 
-see [overview slide deck](https://raw.githack.com/fujitatomoya/rcl_logging_syslog/main/doc/overview.html) for more information.
+see [overview slide deck](https://raw.githack.com/fujitatomoya/rcl_logging_syslog/rolling/doc/overview.html) for more information.
 
 ## Motivation
 
@@ -292,4 +292,4 @@ ______ _                  _    ______ _ _           _____  __
 
 - https://www.rsyslog.com/doc/index.html
 - https://docs.fluentbit.io/manual
-- [ROS by the Bay 20250130](https://raw.githack.com/fujitatomoya/rcl_logging_syslog/main/doc/presentation/ROS-By-The-Bay_20250130.html) for more information.
+- [ROS by the Bay 20250130 Presentation](https://raw.githack.com/fujitatomoya/rcl_logging_syslog/rolling/doc/presentation/ROS-By-The-Bay_20250130.html)
