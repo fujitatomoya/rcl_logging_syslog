@@ -178,8 +178,8 @@ Comment Here
 # [How to use](https://github.com/fujitatomoya/rcl_logging_syslog?tab=readme-ov-file#build)
 
 ```bash
-export RCL_LOGGING_IMPLEMENTATION=rcl_logging_noop
-colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_noop rcl
+export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
+colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_syslog rcl
 ```
 
 - The pain is we always need to build for now... we cannot choose the external logger at runtime...
