@@ -3,7 +3,13 @@
 #####################################################################
 # rcl_logging_syslog rcl logging implementation via rsyslog/syslog.
 #
-# This script builds and tests it within ros distro public docker images.
+# This script builds and tests it with full source with dev docker images.
+# see more details for https://github.com/fujitatomoya/ros2_devenv_builder
+#
+# Since the rcl_logging_syslog needs to be built with rcl, rcl mainline
+# could break the build if that is dependent on new packages or features.
+# Besides, for rolling it requires to build rcl from the source because
+# rolling can change the rcl API and ABI.
 #
 # To avoid updating and modifying the files under `.github/workflows`,
 # this scripts should be adjusted workflow process accordingly.
@@ -32,23 +38,23 @@ function install_prerequisites () {
     trap exit_trap ERR
     echo "[${FUNCNAME[0]}]: update and install dependent packages."
     apt update && apt upgrade -y
+    # actually all the required pacakges are already installed in the docker image.
+    # but if we want to add any packages, we can add here.
     apt install -y git
-    # TODO(@fujitatomoya) probably we should use rosdep to install dependencies to build
-    apt install -y ros-${ROS_DISTRO}-mimick-vendor ros-${ROS_DISTRO}-performance-test-fixture ros-${ROS_DISTRO}-test-msgs
-    #apt install -y ros-${ROS_DISTRO}-desktop --no-install-recommends
     cd $there
 }
 
 function setup_colcon_env () {
     trap exit_trap ERR
     echo "[${FUNCNAME[0]}]: set up colcon build environment."
+    # create colcon temporary workspace
     mkdir -p ${COLCON_WORKSPACE}/src
-    # fetch rcl repository in local file system to build with rcl_logging_syslog.
+    cd ${COLCON_WORKSPACE}
+    # fetch all source mainline source code to build with rcl_logging_syslog.
     # currently no dynamic loading is supported with rcl_logging, so we need to build rcl together.
     # see more details for https://github.com/ros2/rcl/issues/1178
-    git clone -b ${ROS_DISTRO} https://github.com/ros2/rcl.git ${COLCON_WORKSPACE}/src/rcl
+    vcs import --input https://raw.githubusercontent.com/ros2/ros2/${ROS_DISTRO}/ros2.repos src
     # move rcl_logging_syslog directory to colcon workspace
-    cd ${COLCON_WORKSPACE}
     cp -rf $there ${COLCON_WORKSPACE}/src
 }
 
@@ -74,10 +80,9 @@ function setup_rsyslog () {
 function build_colcon_package () {
     trap exit_trap ERR
     echo "[${FUNCNAME[0]}]: build rcl and rcl_logging_syslog packages."
-    source /opt/ros/${ROS_DISTRO}/setup.bash
     cd ${COLCON_WORKSPACE}
     export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
-    colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_syslog rcl
+    colcon build --symlink-install --cmake-clean-cache --packages-up-to rcl_logging_syslog rcl
 }
 
 function test_colcon_package () {

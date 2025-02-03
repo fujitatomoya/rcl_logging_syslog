@@ -21,7 +21,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ros:jazzy
+      image: tomoyafujita/ros2dev:jazzy
       env:
         ROS_DISTRO: jazzy
     steps:
