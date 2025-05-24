@@ -228,7 +228,7 @@ Logging messages from ROS 2 application will be sent to `rsyslogd` and forwarded
 
 ### Examples
 
-The followings are example output for file system and [fluent-bit](https://github.com/fluent/fluent-bit).
+The following is an example output for file system and [fluent-bit](https://github.com/fluent/fluent-bit).
 
 Start ROS 2 demo application:
 
