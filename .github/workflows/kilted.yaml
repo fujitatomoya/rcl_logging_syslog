@@ -1,0 +1,33 @@
+# This is workflow for kilted distribution
+name: kilted
+
+# Because of rcl_logging interface, rcl_logging_syslog has each distribution branch.
+on:
+  push:
+    branches: [ "kilted" ]
+  pull_request:
+    branches: [ "kilted" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  # each job goes for each ros supported distribution.
+  # each job description absorb the distribution dependency as much as possible,
+  # so that build/test verification script can be agnostic from distribution dependency.
+
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: tomoyafujita/ros2dev:kilted
+      env:
+        ROS_DISTRO: kilted
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Build and Test with ROS kilted
+        shell: bash
+        run: |
+          ./scripts/github_workflows.sh

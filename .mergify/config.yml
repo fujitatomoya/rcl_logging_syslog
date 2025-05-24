@@ -9,6 +9,7 @@ pull_request_rules:
     actions:
       backport:
         branches:
+          - kilted
           - jazzy
           - humble
 
@@ -23,8 +24,22 @@ pull_request_rules:
     actions:
       backport:
         branches:
+          - kilted
           - jazzy
           - humble
+
+  - name: backport to kilted at reviewers discretion
+    description: |
+      This rule backports a PR to the jazzy distribution branch when it is labeled.
+    conditions:
+      - base=rolling
+      - "label=backport-kilted"
+      - merged
+      - label!=skip-backport  # Do not backport if this label exists
+    actions:
+      backport:
+        branches:
+          - kilted
 
   - name: backport to jazzy at reviewers discretion
     description: |
