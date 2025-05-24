@@ -1,4 +1,4 @@
-[![humble](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/humble.yaml/badge.svg?branch=humble)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/humble.yaml) [![jazzy](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/jazzy.yaml/badge.svg?branch=jazzy)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/jazzy.yaml) [![rolling](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/rolling.yaml/badge.svg?branch=rolling)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/rolling.yaml)
+[![humble](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/humble.yaml/badge.svg?branch=humble)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/humble.yaml) [![jazzy](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/jazzy.yaml/badge.svg?branch=jazzy)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/jazzy.yaml) [![kilted](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/kilted.yaml/badge.svg?branch=kilted)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/kilted.yaml) [![rolling](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/rolling.yaml/badge.svg?branch=rolling)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/rolling.yaml)
 [![nightly](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/nightly.yaml/badge.svg?branch=rolling)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/nightly.yaml)
 
 # rcl_logging_syslog 🚢🚀🚂
@@ -44,6 +44,7 @@ https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca
 | Distribution      | Supported | Branch |
 | :---------------- | :-------- | :----- |
 | Rolling Ridley    |    ✅    | `rolling` (Development) |
+| Kilted Kaiju      |    ✅    | `kilted`  |
 | Jazzy Jalisco     |    ✅    | `jazzy`  |
 | Humble Hawksbill  |    ✅    | `humble` |
 
