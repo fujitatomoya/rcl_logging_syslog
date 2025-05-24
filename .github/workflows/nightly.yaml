@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        branch: [rolling, jazzy, humble]
+        branch: [rolling, kilted, jazzy, humble]
     container:
       image: tomoyafujita/ros2dev:${{ matrix.branch }}
       env:
