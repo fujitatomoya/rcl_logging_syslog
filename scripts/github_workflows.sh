@@ -38,7 +38,7 @@ function install_prerequisites () {
     trap exit_trap ERR
     echo "[${FUNCNAME[0]}]: update and install dependent packages."
     apt update && apt upgrade -y
-    # actually all the required pacakges are already installed in the docker image.
+    # actually all the required packages are already installed in the docker image.
     # but if we want to add any packages, we can add here.
     apt install -y git
     cd $there
