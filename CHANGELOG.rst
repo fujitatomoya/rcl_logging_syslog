@@ -2,8 +2,8 @@
 Changelog for package rcl_logging_syslog
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.1 (2025-06-10)
+------------------
 * enable builtin dictionaries with custom ones. (`#111 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/111>`_)
 * Support codespell (`#106 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/106>`_)
   * support codespell github action.
