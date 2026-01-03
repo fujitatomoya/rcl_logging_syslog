@@ -35,21 +35,21 @@ jobs:
 
           # Issue messages
           stale-issue-message: |
-            Hello 👋 Looks like there was no activity on this issue for last 90 days.
+            Hello 👋 Looks like there was no activity on this issue for the last 90 days.
             **Do you mind updating us on the status?** Is this still reproducible or needed? If yes, just comment on this issue or push a commit. Thanks! 🤗
             If there will be no activity for 60 days, this issue will be closed (we can always reopen an issue if we need!).
 
           close-issue-message: |
-            Closing for now as there was no activity for last 60 days after marked as stale, let us know if you need this to be reopened! 🤗
+            Closing for now as there was no activity for the last 60 days after being marked as stale, let us know if you need this to be reopened! 🤗
 
           # PR messages
           stale-pr-message: |
-            Hello 👋 Looks like there was no activity on this amazing PR for last 90 days.
+            Hello 👋 Looks like there was no activity on this amazing PR for the last 90 days.
             **Do you mind updating us on the status?** Is there anything we can help with? If you plan to still work on it, just comment on this PR or push a commit. Thanks! 🤗
             If there will be no activity for 60 days, this PR will be closed (we can always reopen a PR if you get back to this!).
 
           close-pr-message: |
-            Closing for now as there was no activity for last 60 days after marked as stale, let us know if you need this to be reopened! 🤗
+            Closing for now as there was no activity for the last 60 days after being marked as stale, let us know if you need this to be reopened! 🤗
 
           # Operations and behavior
           operations-per-run: 100
