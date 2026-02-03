@@ -111,22 +111,39 @@ Desired=Unknown/Install/Remove/Purge/Hold
 ii  fluent-bit     3.1.6        amd64        Fast data collector for Linux
 ```
 
-### Build
+### Install Package
 
-Currently we need to build the source code if we want to use alternative logging backend with [ROS 2](https://github.com/ros2).
-See more details for https://github.com/ros2/rcl/issues/1178.
+> [!NOTE]
+> Update how to install the package here once it is realeased.
+
+### Build Source
 
 Please follow [ROS 2 Official Development / Installation](https://docs.ros.org/en/rolling/Installation/Alternatives/Ubuntu-Development-Setup.html) to build the `rcl_logging_syslog` package below.
 
-```bash
-### Clone the repository under the workspace
-cd <YOUR_WORKSPACE>/src
-git clone https://github.com/fujitatomoya/rcl_logging_syslog.git
+There are two ways to build and use `rcl_logging_syslog` **dynamic linking** or **static linking**.
+See more details in the [ROS 2 Logging Documentation](https://github.com/ros2/ros2_documentation/blob/rolling/source/Concepts/Intermediate/About-Logging.rst#rcl-logging-implementation).
 
-### Build rcl_logging_syslog
-export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
-colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_syslog rcl
-```
+> [!WARNING]
+> Kilted or older distribution only support ``static linking``.
+> See more details for https://github.com/ros2/rcl/issues/1178.
+
+- Dynamic Linking (Recommended)
+
+  ```bash
+  cd <YOUR_WORKSPACE>/src
+  git clone https://github.com/fujitatomoya/rcl_logging_syslog.git
+  cd <YOUR_WORKSPACE>
+  colcon build --symlink-install --packages-select rcl_logging_syslog
+  ```
+
+- Static Linking
+
+  ```bash
+  cd <YOUR_WORKSPACE>/src
+  git clone https://github.com/fujitatomoya/rcl_logging_syslog.git
+  export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
+  colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_syslog rcl
+  ```
 
 ### Test
 
@@ -145,6 +162,15 @@ colcon test --event-handlers console_direct+ --packages-select rcl_logging_syslo
 ```
 
 ### Configuration
+
+If you install the package or build dynamic linking binary, we need to configure logging implementation via `RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog` at runtime.
+
+```bash
+export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
+# then run our application. e.g. "ros2 run <pacakge> <executable>"
+```
+
+see more details for [rcl_logging_implementation](https://github.com/ros2/ros2_documentation/blob/rolling/source/Concepts/Intermediate/About-Logging.rst#rcl-logging-implementation).
 
 [SYSLOG(3)](https://man7.org/linux/man-pages/man3/syslog.3.html) is really simple that does not have much interfaces to control on application side, it just writes the log data on `rsyslog` Unix Domain Socket.
 So we need to configure `rsyslog` how it manages the log message with `/etc/rsyslog.conf`, for example file system sink and forward the message to `fluent-bit`.
