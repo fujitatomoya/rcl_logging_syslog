@@ -81,7 +81,7 @@ function build_colcon_package () {
     trap exit_trap ERR
     echo "[${FUNCNAME[0]}]: build rcl and rcl_logging_syslog packages."
     cd ${COLCON_WORKSPACE}
-    # we can use dynamic shared library.
+    # we can now use a dynamic shared library.
     # export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
     colcon build --symlink-install --cmake-clean-cache --packages-up-to rcl_logging_syslog
 }

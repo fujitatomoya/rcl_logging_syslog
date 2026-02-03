@@ -114,7 +114,7 @@ ii  fluent-bit     3.1.6        amd64        Fast data collector for Linux
 ### Install Package
 
 > [!NOTE]
-> Update how to install the package here once it is realeased.
+> Update how to install the package here once it is released.
 
 ### Build Source
 
@@ -124,7 +124,7 @@ There are two ways to build and use `rcl_logging_syslog` **dynamic linking** or 
 See more details in the [ROS 2 Logging Documentation](https://github.com/ros2/ros2_documentation/blob/rolling/source/Concepts/Intermediate/About-Logging.rst#rcl-logging-implementation).
 
 > [!WARNING]
-> Kilted or older distribution only support ``static linking``.
+> Kilted or older distributions only support ``static linking``.
 > See more details for https://github.com/ros2/rcl/issues/1178.
 
 - Dynamic Linking (Recommended)
@@ -167,7 +167,7 @@ If you install the package or build dynamic linking binary, we need to configure
 
 ```bash
 export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
-# then run our application. e.g. "ros2 run <pacakge> <executable>"
+# then run our application. e.g. "ros2 run <package> <executable>"
 ```
 
 see more details for [rcl_logging_implementation](https://github.com/ros2/ros2_documentation/blob/rolling/source/Concepts/Intermediate/About-Logging.rst#rcl-logging-implementation).
