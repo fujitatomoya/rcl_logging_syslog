@@ -2,6 +2,21 @@
 Changelog for package rcl_logging_syslog
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* update doc with rcl_logging_implementation support. (`#138 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/138>`_)
+  * update doc with rcl_logging_implementation support.
+  * typo fixes and address review comments.
+  ---------
+* Upgrade github action/run-gemini-cli workflows. (`#136 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/136>`_)
+* enable actions/stale to close issues and PRs. (`#131 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/131>`_)
+  * enable actions/stale to close issues and PRs.
+  * address Copilot review comments.
+  ---------
+* ROSCon 2025 Singapore Slide Deck. (`#125 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/125>`_)
+* add gemini-cli github actions. (`#118 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/118>`_)
+* Contributors: Tomoya Fujita
+
 0.1.1 (2025-06-10)
 ------------------
 * enable builtin dictionaries with custom ones. (`#111 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/111>`_)
