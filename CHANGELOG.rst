@@ -2,8 +2,8 @@
 Changelog for package rcl_logging_syslog
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2026-02-20)
+------------------
 * update doc with rcl_logging_implementation support. (`#138 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/138>`_)
   * update doc with rcl_logging_implementation support.
   * typo fixes and address review comments.
