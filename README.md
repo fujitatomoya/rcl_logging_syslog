@@ -147,17 +147,6 @@ See more details for https://github.com/ros2/rcl/issues/1178.
 
 Please follow [ROS 2 Official Development / Installation](https://docs.ros.org/en/rolling/Installation/Alternatives/Ubuntu-Development-Setup.html) to build the `rcl_logging_syslog` package below.
 
-<<<<<<< HEAD
-```bash
-### Clone the repository under the workspace
-cd <YOUR_WORKSPACE>/src
-git clone https://github.com/fujitatomoya/rcl_logging_syslog.git
-
-### Build rcl_logging_syslog
-export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
-colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_syslog rcl
-```
-=======
 There are two ways to build and use `rcl_logging_syslog`: **dynamic loading** or **static linking**.
 See more details in the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Logging.html#rcl-logging-implementation) and the [`rcl_logging_implementation`](#rcl_logging_implementation) section above.
 
@@ -193,7 +182,6 @@ See more details in the [ROS 2 Logging Documentation](https://docs.ros.org/en/ro
   export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
   colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_syslog rcl
   ```
->>>>>>> 6c9ee63 (adjust the readme with rcl_logging_implementation. (#146))
 
 ### Test
 
@@ -213,8 +201,6 @@ colcon test --event-handlers console_direct+ --packages-select rcl_logging_syslo
 
 ### Configuration
 
-<<<<<<< HEAD
-=======
 If you are using **dynamic loading** (Rolling or later), set the logging implementation via the `RCL_LOGGING_IMPLEMENTATION` environment variable at runtime.
 If you are using **static linking** (Kilted or older), the logging implementation is already linked into `rcl` at build time and this environment variable has no effect.
 
@@ -225,7 +211,6 @@ export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
 
 See more details for [`rcl_logging_implementation`](#rcl_logging_implementation) and the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Logging.html#rcl-logging-implementation).
 
->>>>>>> 6c9ee63 (adjust the readme with rcl_logging_implementation. (#146))
 [SYSLOG(3)](https://man7.org/linux/man-pages/man3/syslog.3.html) is really simple that does not have much interfaces to control on application side, it just writes the log data on `rsyslog` Unix Domain Socket.
 So we need to configure `rsyslog` how it manages the log message with `/etc/rsyslog.conf`, for example file system sink and forward the message to `fluent-bit`.
 
