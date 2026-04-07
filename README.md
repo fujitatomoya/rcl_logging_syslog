@@ -41,12 +41,41 @@ https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca
 
 ## Supported [ROS Distribution](https://docs.ros.org/en/rolling/Releases.html)
 
-| Distribution      | Supported | Branch |
-| :---------------- | :-------- | :----- |
-| Rolling Ridley    |    ✅    | `rolling` (Development) |
-| Kilted Kaiju      |    ✅    | `kilted`  |
-| Jazzy Jalisco     |    ✅    | `jazzy`  |
-| Humble Hawksbill  |    ✅    | `humble` |
+| Distribution      | Supported | Branch | Dynamic Loading |
+| :---------------- | :-------- | :----- | :-------------- |
+| Rolling Ridley    |    ✅    | `rolling` (Development) | ✅ |
+| Kilted Kaiju      |    ✅    | `kilted`  | ❌ |
+| Jazzy Jalisco     |    ✅    | `jazzy`  | ❌ |
+| Humble Hawksbill  |    ✅    | `humble` | ❌ |
+
+## `rcl_logging_implementation`
+
+Starting with [Rolling Ridley](https://docs.ros.org/en/rolling/Releases.html), ROS 2 introduces [`rcl_logging_implementation`](https://github.com/ros2/rcl_logging/tree/rolling/rcl_logging_implementation), a package that enables runtime dynamic loading of logging backends, similar to how [`rmw_implementation`](https://github.com/ros2/rmw_implementation) works for middleware selection.
+This abstraction layer allows users to switch between different logging implementations (such as `rcl_logging_spdlog`, `rcl_logging_noop`, or `rcl_logging_syslog`) without rebuilding RCL or application code.
+
+See the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Logging.html#rcl-logging-implementation) for more details.
+
+### Runtime Dynamic Loading vs Static Linking
+
+The logging system supports two build configurations:
+
+**Dynamic Loading (Default, Rolling or later)**
+
+By default, `rcl` links against `rcl_logging_implementation`, which dynamically loads the logging backend at runtime.
+This approach provides maximum flexibility, allowing the logging implementation to be changed via the `RCL_LOGGING_IMPLEMENTATION` environment variable without recompilation.
+
+- The logging implementation is loaded as a shared library at runtime.
+- No rebuild of `rcl` is required to switch between logging implementations.
+- Simply build `rcl_logging_syslog` and set the environment variable to use it.
+
+**Static Linking (Kilted or older distributions)**
+
+For Kilted, Jazzy, and Humble distributions, the `rcl_logging_implementation` package is not available.
+Users must rebuild `rcl` with the `RCL_LOGGING_IMPLEMENTATION` CMake/environment variable set at build time to statically link `rcl_logging_syslog`.
+
+- The specified implementation is statically linked into `rcl` at build time.
+- Runtime switching is NOT available.
+- Requires rebuilding `rcl` whenever you want to change the logging backend.
 
 ## Installation
 
@@ -118,15 +147,41 @@ See more details for https://github.com/ros2/rcl/issues/1178.
 
 Please follow [ROS 2 Official Development / Installation](https://docs.ros.org/en/rolling/Installation/Alternatives/Ubuntu-Development-Setup.html) to build the `rcl_logging_syslog` package below.
 
-```bash
-### Clone the repository under the workspace
-cd <YOUR_WORKSPACE>/src
-git clone https://github.com/fujitatomoya/rcl_logging_syslog.git
+There are two ways to build and use `rcl_logging_syslog`: **dynamic loading** or **static linking**.
+See more details in the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Logging.html#rcl-logging-implementation) and the [`rcl_logging_implementation`](#rcl_logging_implementation) section above.
 
-### Build rcl_logging_syslog
-export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
-colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_syslog rcl
-```
+> [!WARNING]
+> Kilted or older distributions only support **static linking** and require rebuilding `rcl`.
+> See more details for https://github.com/ros2/rcl/issues/1178.
+
+- Dynamic Loading (Rolling or later, Recommended)
+
+  With `rcl_logging_implementation` available, you only need to build `rcl_logging_syslog` and set the `RCL_LOGGING_IMPLEMENTATION` environment variable at runtime. No rebuild of `rcl` is required.
+
+  ```bash
+  cd <YOUR_WORKSPACE>/src
+  git clone https://github.com/fujitatomoya/rcl_logging_syslog.git
+  cd <YOUR_WORKSPACE>
+  colcon build --symlink-install --packages-select rcl_logging_syslog
+  ```
+
+  Then, set the environment variable before running your application:
+
+  ```bash
+  export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
+  ros2 run <package> <executable>
+  ```
+
+- Static Linking (Kilted or older)
+
+  For distributions that do not have `rcl_logging_implementation`, you must rebuild `rcl` with the `RCL_LOGGING_IMPLEMENTATION` environment variable set at build time.
+
+  ```bash
+  cd <YOUR_WORKSPACE>/src
+  git clone https://github.com/fujitatomoya/rcl_logging_syslog.git
+  export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
+  colcon build --symlink-install --cmake-clean-cache --packages-select rcl_logging_syslog rcl
+  ```
 
 ### Test
 
@@ -145,6 +200,16 @@ colcon test --event-handlers console_direct+ --packages-select rcl_logging_syslo
 ```
 
 ### Configuration
+
+If you are using **dynamic loading** (Rolling or later), set the logging implementation via the `RCL_LOGGING_IMPLEMENTATION` environment variable at runtime.
+If you are using **static linking** (Kilted or older), the logging implementation is already linked into `rcl` at build time and this environment variable has no effect.
+
+```bash
+export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
+# then run our application. e.g. "ros2 run <package> <executable>"
+```
+
+See more details for [`rcl_logging_implementation`](#rcl_logging_implementation) and the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Logging.html#rcl-logging-implementation).
 
 [SYSLOG(3)](https://man7.org/linux/man-pages/man3/syslog.3.html) is really simple that does not have much interfaces to control on application side, it just writes the log data on `rsyslog` Unix Domain Socket.
 So we need to configure `rsyslog` how it manages the log message with `/etc/rsyslog.conf`, for example file system sink and forward the message to `fluent-bit`.
