@@ -19,7 +19,7 @@ jobs:
         ROS_DISTRO: ${{ matrix.branch }}
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           ref: ${{ matrix.branch }}
       - name: Build and Test
