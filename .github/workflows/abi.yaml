@@ -26,7 +26,7 @@ jobs:
       contents: read
       pull-requests: write
       issues: write
-    uses: fujitatomoya/ros2-abi-action/.github/workflows/check.yml@v0.1.0
+    uses: fujitatomoya/ros2-abi-action/.github/workflows/check.yml@v0.1.1
     with:
       # Colcon package name to build.
       package: rcl_logging_syslog
