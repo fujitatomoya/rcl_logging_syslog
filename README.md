@@ -39,7 +39,7 @@ https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca
 
 - [How to integrate with Fluentd / Loki / Grafana](./doc/tutorials/Fluentd_Loki_Grafana.md)
 
-## Supported [ROS Distribution](https://docs.ros.org/en/rolling/Releases.html)
+## Supported [ROS Distribution](https://docs.ros.org/en/rolling/Get-Started/Releases.html)
 
 | Distribution      | Supported | Branch | Dynamic Loading |
 | :---------------- | :-------- | :----- | :-------------- |
@@ -50,10 +50,10 @@ https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca
 
 ## `rcl_logging_implementation`
 
-Starting with [Rolling Ridley](https://docs.ros.org/en/rolling/Releases.html), ROS 2 introduces [`rcl_logging_implementation`](https://github.com/ros2/rcl_logging/tree/rolling/rcl_logging_implementation), a package that enables runtime dynamic loading of logging backends, similar to how [`rmw_implementation`](https://github.com/ros2/rmw_implementation) works for middleware selection.
+Starting with [Rolling Ridley](https://docs.ros.org/en/rolling/Get-Started/Releases.html), ROS 2 introduces [`rcl_logging_implementation`](https://github.com/ros2/rcl_logging/tree/rolling/rcl_logging_implementation), a package that enables runtime dynamic loading of logging backends, similar to how [`rmw_implementation`](https://github.com/ros2/rmw_implementation) works for middleware selection.
 This abstraction layer allows users to switch between different logging implementations (such as `rcl_logging_spdlog`, `rcl_logging_noop`, or `rcl_logging_syslog`) without rebuilding RCL or application code.
 
-See the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Logging.html#rcl-logging-implementation) for more details.
+See the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/ROS-Framework/nodes/About-Logging/About-Logging.html#rcl-logging-implementation) for more details.
 
 ### Runtime Dynamic Loading vs Static Linking
 
@@ -147,10 +147,10 @@ ii  fluent-bit     3.1.6        amd64        Fast data collector for Linux
 
 ### Build Source
 
-Please follow [ROS 2 Official Development / Installation](https://docs.ros.org/en/rolling/Installation/Alternatives/Ubuntu-Development-Setup.html) to build the `rcl_logging_syslog` package below.
+Please follow [ROS 2 Official Development / Installation](https://docs.ros.org/en/rolling/Get-Started/Installation/Alternatives/Ubuntu-Development-Setup.html) to build the `rcl_logging_syslog` package below.
 
 There are two ways to build and use `rcl_logging_syslog`: **dynamic loading** or **static linking**.
-See more details in the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Logging.html#rcl-logging-implementation) and the [`rcl_logging_implementation`](#rcl_logging_implementation) section above.
+See more details in the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/ROS-Framework/nodes/About-Logging/About-Logging.html#rcl-logging-implementation) and the [`rcl_logging_implementation`](#rcl_logging_implementation) section above.
 
 > [!WARNING]
 > Kilted or older distributions only support **static linking** and require rebuilding `rcl`.
@@ -211,7 +211,7 @@ export RCL_LOGGING_IMPLEMENTATION=rcl_logging_syslog
 # then run our application. e.g. "ros2 run <package> <executable>"
 ```
 
-See more details for [`rcl_logging_implementation`](#rcl_logging_implementation) and the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Logging.html#rcl-logging-implementation).
+See more details for [`rcl_logging_implementation`](#rcl_logging_implementation) and the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/ROS-Framework/nodes/About-Logging/About-Logging.html#rcl-logging-implementation).
 
 [SYSLOG(3)](https://man7.org/linux/man-pages/man3/syslog.3.html) is really simple that does not have much interfaces to control on application side, it just writes the log data on `rsyslog` Unix Domain Socket.
 So we need to configure `rsyslog` how it manages the log message with `/etc/rsyslog.conf`, for example file system sink and forward the message to `fluent-bit`.
