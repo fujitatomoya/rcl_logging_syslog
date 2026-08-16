@@ -212,9 +212,12 @@ rcl_logging_ret_t rcl_logging_external_initialize(
 
   // Check and fetch the syslog facility from environmental variable
   int syslog_facility = get_syslog_facility();
+  // NOTE: test-only change for ros2-abi-action verification: internal log
+  // message wording changed, no exported symbol or type is affected, so
+  // abidiff must report the ABI as compatible.
   RCUTILS_LOG_DEBUG_NAMED(
     logger_name,
-    "syslog facility is set to %s", get_facility_name(syslog_facility));
+    "syslog facility is configured to %s", get_facility_name(syslog_facility));
 
   // Use user specified filename, or executable name to openlog(3) identity.
   openlog(syslog_identity->c_str(), LOG_PID, syslog_facility);
