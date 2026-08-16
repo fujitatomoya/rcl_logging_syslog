@@ -26,7 +26,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   )
 endif()
 
-add_library(${PROJECT_NAME} src/rcl_logging_syslog.cpp)
+add_library(${PROJECT_NAME} src/rcl_logging_syslog.cpp src/abi_test_log.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
   rcpputils::rcpputils

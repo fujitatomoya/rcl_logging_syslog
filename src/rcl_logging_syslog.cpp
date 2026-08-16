@@ -229,11 +229,11 @@ rcl_logging_ret_t rcl_logging_external_shutdown()
   return RCL_LOGGING_RET_OK;
 }
 
-void rcl_logging_external_log(int severity, const char * name, const char * msg)
-{
-  (void) name;
-  syslog(rcutil_to_syslog_level(severity), "%s", msg);
-}
+// NOTE: test-only change for ros2-abi-action verification.
+// rcl_logging_external_log is intentionally defined in src/abi_test_log.cpp
+// with a modified parameter type (int -> long). The exported ELF symbol name
+// stays the same, but the DWARF signature differs, so abidiff must report an
+// incompatible ABI change.
 
 rcl_logging_ret_t rcl_logging_external_set_logger_level(const char * name, int level)
 {
