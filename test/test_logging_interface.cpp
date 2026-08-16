@@ -35,6 +35,17 @@
 #include "rcutils/strdup.h"
 #include "rcutils/testing/fault_injection.h"
 
+// NOTE: test-only stub for ros2-abi-action verification.
+// The library intentionally no longer exports
+// rcl_logging_external_set_logger_level (removed-symbol ABI test), so define
+// it locally to keep this test binary linking.
+rcl_logging_ret_t rcl_logging_external_set_logger_level(const char * name, int level)
+{
+  (void) name;
+  (void) level;
+  return RCL_LOGGING_RET_OK;
+}
+
 static constexpr int logger_levels[] =
 {
   RCUTILS_LOG_SEVERITY_UNSET,

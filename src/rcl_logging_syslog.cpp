@@ -235,16 +235,7 @@ void rcl_logging_external_log(int severity, const char * name, const char * msg)
   syslog(rcutil_to_syslog_level(severity), "%s", msg);
 }
 
-rcl_logging_ret_t rcl_logging_external_set_logger_level(const char * name, int level)
-{
-  (void) name;
-
-  int syslog_level = rcutil_to_syslog_level(level);
-  int old_mask = setlogmask(LOG_UPTO(syslog_level));
-  if (old_mask == -1) {
-    RCUTILS_LOG_ERROR("Failed to call setlogmask(%d)", syslog_level);
-    return RCL_LOGGING_RET_ERROR;
-  }
-
-  return RCL_LOGGING_RET_OK;
-}
+// NOTE: test-only change for ros2-abi-action verification.
+// rcl_logging_external_set_logger_level is intentionally removed from this
+// library. abidiff must report the removed symbol as an incompatible
+// API/ABI change.
