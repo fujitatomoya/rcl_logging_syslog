@@ -39,7 +39,7 @@ https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca
 
 - [How to integrate with Fluentd / Loki / Grafana](./doc/tutorials/Fluentd_Loki_Grafana.md)
 
-## Supported [ROS Distribution](https://docs.ros.org/en/rolling/Get-Started/Releases.html)
+## Supported [ROS Distribution](https://docs.ros.org/en/rolling/Releases.html)
 
 | Distribution      | Supported | Branch | Dynamic Loading |
 | :---------------- | :-------- | :----- | :-------------- |
@@ -50,7 +50,7 @@ https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca
 
 ## `rcl_logging_implementation`
 
-Starting with [Rolling Ridley](https://docs.ros.org/en/rolling/Get-Started/Releases.html), ROS 2 introduces [`rcl_logging_implementation`](https://github.com/ros2/rcl_logging/tree/rolling/rcl_logging_implementation), a package that enables runtime dynamic loading of logging backends, similar to how [`rmw_implementation`](https://github.com/ros2/rmw_implementation) works for middleware selection.
+Starting with [Rolling Ridley](https://docs.ros.org/en/rolling/Releases.html), ROS 2 introduces [`rcl_logging_implementation`](https://github.com/ros2/rcl_logging/tree/rolling/rcl_logging_implementation), a package that enables runtime dynamic loading of logging backends, similar to how [`rmw_implementation`](https://github.com/ros2/rmw_implementation) works for middleware selection.
 This abstraction layer allows users to switch between different logging implementations (such as `rcl_logging_spdlog`, `rcl_logging_noop`, or `rcl_logging_syslog`) without rebuilding RCL or application code.
 
 See the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/ROS-Framework/nodes/About-Logging/About-Logging.html#rcl-logging-implementation) for more details.
