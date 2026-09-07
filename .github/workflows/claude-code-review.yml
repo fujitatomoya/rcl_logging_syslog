@@ -31,6 +31,18 @@ jobs:
         with:
           fetch-depth: 1
 
+      # The code-review plugin is loaded from a local checkout instead of a
+      # marketplace. The organization's Claude enterprise policy only allows
+      # marketplaces declared as github:owner/repo, while the action's
+      # plugin_marketplaces input only accepts https://...git URLs, which the
+      # CLI classifies as a plain git source and the policy rejects.
+      - name: Fetch code-review plugin
+        run: |
+          git clone --depth 1 --filter=blob:none --sparse \
+            https://github.com/anthropics/claude-plugins-official.git \
+            "${RUNNER_TEMP}/claude-plugins-official"
+          git -C "${RUNNER_TEMP}/claude-plugins-official" sparse-checkout set plugins/code-review
+
       - name: Run Claude Code Review
         id: claude-review
         uses: anthropics/claude-code-action@v1
@@ -39,10 +51,7 @@ jobs:
           # Backport PRs are opened by Mergify, and the action rejects non-human
           # actors unless they are listed here.
           allowed_bots: 'mergify[bot]'
-          # Use the official marketplace (github:anthropics/claude-plugins-official).
-          # The anthropics/claude-code marketplace is blocked by enterprise policy.
-          plugin_marketplaces: 'anthropics/claude-plugins-official'
-          plugins: 'code-review@claude-plugins-official'
+          claude_args: '--plugin-dir ${{ runner.temp }}/claude-plugins-official/plugins/code-review'
           prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
