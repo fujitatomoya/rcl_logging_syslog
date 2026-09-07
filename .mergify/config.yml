@@ -1,11 +1,13 @@
 pull_request_rules:
   - name: automatic backport to all supported distribution
     description: |
-      This rule backports a PR to all supported distribution branches when it is merged.
+      This rule backports a PR to all supported distribution branches when it is merged,
+      unless an explicit backport-* label selects the target branches.
     conditions:
       - base=rolling
       - merged
       - label!=skip-backport  # Do not backport if this label exists
+      - -label~=^backport-  # Explicit backport-* labels take over (rules below)
     actions:
       backport:
         branches:
