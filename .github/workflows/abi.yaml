@@ -1,12 +1,12 @@
 # This workflow checks ABI compatibility of librcl_logging_syslog.so on every PR.
 #
 # It uses the reusable ros2-abi-action workflow, which:
-#   1. resolves the ROS 2 distro from the PR's target branch (rolling/kilted/jazzy/humble),
+#   1. resolves the ROS 2 distro from the PR's target branch (rolling/lyrical/kilted/jazzy/humble),
 #   2. builds the package twice in the matching tomoyafujita/ros2dev:<distro> container
 #      (once against the target branch, once against the PR head) with -g -Og so DWARF
 #      debug info is present,
 #   3. delegates the binary ABI diff to fujitatomoya/libabigail-action (abidiff),
-#   4. applies REP-0009 policy automatically: released distros (humble/jazzy/kilted)
+#   4. applies REP-0009 policy automatically: released distros (humble/jazzy/kilted/lyrical)
 #      fail on an incompatible ABI break, rolling is advisory only,
 #   5. surfaces the verdict as a sticky PR comment, a label, and a pass/fail check.
 #
@@ -15,7 +15,7 @@ name: abi
 
 on:
   pull_request:
-    branches: [ "rolling", "kilted", "jazzy", "humble" ]
+    branches: [ "rolling", "lyrical", "kilted", "jazzy", "humble" ]
 
   # Allows you to run this workflow manually from the Actions tab.
   workflow_dispatch:
