@@ -41,6 +41,8 @@ jobs:
         id: 'run_gemini'
         uses: 'google-github-actions/run-gemini-cli@v0' # ratchet:exclude
         env:
+          # gemini-cli >= 0.39.1 refuses to run headless in an untrusted directory.
+          GEMINI_CLI_TRUST_WORKSPACE: 'true'
           TITLE: '${{ github.event.pull_request.title || github.event.issue.title }}'
           DESCRIPTION: '${{ github.event.pull_request.body || github.event.issue.body }}'
           EVENT_NAME: '${{ github.event_name }}'
@@ -111,6 +113,7 @@ jobs:
               },
               "tools": {
                 "core": [
+                  "mcp_github_*",
                   "run_shell_command(cat)",
                   "run_shell_command(echo)",
                   "run_shell_command(grep)",
