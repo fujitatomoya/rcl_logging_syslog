@@ -39,8 +39,10 @@ jobs:
           # Backport PRs are opened by Mergify, and the action rejects non-human
           # actors unless they are listed here.
           allowed_bots: 'mergify[bot]'
-          plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
-          plugins: 'code-review@claude-code-plugins'
+          # Use the official marketplace (github:anthropics/claude-plugins-official).
+          # The anthropics/claude-code marketplace is blocked by enterprise policy.
+          plugin_marketplaces: 'anthropics/claude-plugins-official'
+          plugins: 'code-review@claude-plugins-official'
           prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
