@@ -1,4 +1,4 @@
-[![humble](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/humble.yaml/badge.svg?branch=humble)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/humble.yaml) [![jazzy](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/jazzy.yaml/badge.svg?branch=jazzy)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/jazzy.yaml) [![kilted](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/kilted.yaml/badge.svg?branch=kilted)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/kilted.yaml) [![rolling](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/rolling.yaml/badge.svg?branch=rolling)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/rolling.yaml)
+[![humble](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/humble.yaml/badge.svg?branch=humble)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/humble.yaml) [![jazzy](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/jazzy.yaml/badge.svg?branch=jazzy)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/jazzy.yaml) [![kilted](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/kilted.yaml/badge.svg?branch=kilted)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/kilted.yaml) [![lyrical](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/lyrical.yaml/badge.svg?branch=lyrical)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/lyrical.yaml) [![rolling](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/rolling.yaml/badge.svg?branch=rolling)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/rolling.yaml)
 [![nightly](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/nightly.yaml/badge.svg?branch=rolling)](https://github.com/fujitatomoya/rcl_logging_syslog/actions/workflows/nightly.yaml)
 
 # rcl_logging_syslog 🚢🚀🚂
@@ -44,13 +44,14 @@ https://github.com/user-attachments/assets/4a1aae42-5c55-4f31-9198-8c7c246244ca
 | Distribution      | Supported | Branch | Dynamic Loading |
 | :---------------- | :-------- | :----- | :-------------- |
 | Rolling Ridley    |    ✅    | `rolling` (Development) | ✅ |
+| Lyrical Luth      |    ✅    | `lyrical` | ✅ |
 | Kilted Kaiju      |    ✅    | `kilted`  | ❌ |
 | Jazzy Jalisco     |    ✅    | `jazzy`  | ❌ |
 | Humble Hawksbill  |    ✅    | `humble` | ❌ |
 
 ## `rcl_logging_implementation`
 
-Starting with [Rolling Ridley](https://docs.ros.org/en/rolling/Releases.html), ROS 2 introduces [`rcl_logging_implementation`](https://github.com/ros2/rcl_logging/tree/rolling/rcl_logging_implementation), a package that enables runtime dynamic loading of logging backends, similar to how [`rmw_implementation`](https://github.com/ros2/rmw_implementation) works for middleware selection.
+Starting with [Lyrical Luth](https://docs.ros.org/en/rolling/Releases/Release-Lyrical-Luth.html), ROS 2 introduces [`rcl_logging_implementation`](https://github.com/ros2/rcl_logging/tree/rolling/rcl_logging_implementation), a package that enables runtime dynamic loading of logging backends, similar to how [`rmw_implementation`](https://github.com/ros2/rmw_implementation) works for middleware selection.
 This abstraction layer allows users to switch between different logging implementations (such as `rcl_logging_spdlog`, `rcl_logging_noop`, or `rcl_logging_syslog`) without rebuilding RCL or application code.
 
 See the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Logging.html#rcl-logging-implementation) for more details.
@@ -59,7 +60,7 @@ See the [ROS 2 Logging Documentation](https://docs.ros.org/en/rolling/Concepts/I
 
 The logging system supports two build configurations:
 
-**Dynamic Loading (Default, Rolling or later)**
+**Dynamic Loading (Default, Lyrical or later)**
 
 By default, `rcl` links against `rcl_logging_implementation`, which dynamically loads the logging backend at runtime.
 This approach provides maximum flexibility, allowing the logging implementation to be changed via the `RCL_LOGGING_IMPLEMENTATION` environment variable without recompilation.
@@ -154,7 +155,7 @@ See more details in the [ROS 2 Logging Documentation](https://docs.ros.org/en/ro
 > Kilted or older distributions only support **static linking** and require rebuilding `rcl`.
 > See more details for https://github.com/ros2/rcl/issues/1178.
 
-- Dynamic Loading (Rolling or later, Recommended)
+- Dynamic Loading (Lyrical or later, Recommended)
 
   With `rcl_logging_implementation` available, you only need to build `rcl_logging_syslog` and set the `RCL_LOGGING_IMPLEMENTATION` environment variable at runtime. No rebuild of `rcl` is required.
 
@@ -201,7 +202,7 @@ colcon test --event-handlers console_direct+ --packages-select rcl_logging_syslo
 
 ### Configuration
 
-If you are using **dynamic loading** (Rolling or later), set the logging implementation via the `RCL_LOGGING_IMPLEMENTATION` environment variable at runtime.
+If you are using **dynamic loading** (Lyrical or later), set the logging implementation via the `RCL_LOGGING_IMPLEMENTATION` environment variable at runtime.
 If you are using **static linking** (Kilted or older), the logging implementation is already linked into `rcl` at build time and this environment variable has no effect.
 
 ```bash
