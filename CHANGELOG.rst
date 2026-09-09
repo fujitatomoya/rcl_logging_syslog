@@ -2,6 +2,136 @@
 Changelog for package rcl_logging_syslog
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* mergify: do not auto-backport when an explicit backport-* label is set (`#224 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/224>`_)
+  The "automatic backport to all supported distribution" rule matched every
+  merged PR based on rolling, so a PR labeled backport-lyrical (e.g. `#179 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/179>`_)
+  was backported to all distribution branches by the automatic rule firing
+  in parallel with the label rule. Exclude PRs carrying any backport-*
+  label from the automatic rule so explicit labels select the targets.
+  Co-authored-by: Claude Fable 5 <noreply@anthropic.com>
+* Update README.md links to reflect new ROS documentation structure (`#179 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/179>`_)
+  * Update README.md links to reflect new ROS documentation structure
+  * Apply batched suggestions from code review
+  Co-authored-by: Daisuke Kato <kato.daisuke429@gmail.com>
+  ---------
+  Co-authored-by: Tomoya Fujita <tomoya.fujita825@gmail.com>
+* skip claude code review for pull requests from forks. (`#215 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/215>`_)
+  GitHub runs pull_request workflows from forks with a read-only token,
+  no repository secrets and no OIDC token, so claude-code-action cannot
+  authenticate and fails with "Could not fetch an OIDC token".
+  See https://github.com/fujitatomoya/rcl_logging_syslog/pull/179.
+  Switching to pull_request_target is not an option: the action also
+  requires the triggering actor to have write access, and bypassing that
+  with allowed_non_write_users would let untrusted PR content drive
+  Claude with the repository's credentials.
+  Skip the job when the PR head is a fork instead, as the former Gemini
+  dispatch workflow did. Maintainers can still request a review on such
+  a PR by commenting "@claude", which runs claude.yml in the base
+  repository with the maintainer as the actor.
+* remove gemini actinos. (`#210 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/210>`_)
+* use local marketplace plugins because of company rules. (`#205 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/205>`_)
+* use official claude code marketplace. (`#200 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/200>`_)
+* allow mergifyio to start the claude action app. (`#195 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/195>`_)
+* Add claude GitHub actions 1788742709211 (`#186 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/186>`_)
+  * "Claude PR Assistant workflow"
+  * "Claude Code Review workflow"
+* support lyrical luth. (`#183 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/183>`_)
+* enable ros2-abi-action. (`#163 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/163>`_)
+  * enable ros2-abi-action.
+  * upgrade ros2-abi-action.
+  * always use ros2-abi-action@latest for now.
+  * retrigger CI to pick up fixed ros2-abi-action
+  * retrigger CI to pick up ros2-abi-action nounset fix
+  ---------
+* Bump actions/stale from 10 to 11 in the github-actions group (`#172 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/172>`_)
+  Bumps the github-actions group with 1 update: [actions/stale](https://github.com/actions/stale).
+  Updates `actions/stale` from 10 to 11
+  - [Release notes](https://github.com/actions/stale/releases)
+  - [Changelog](https://github.com/actions/stale/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/actions/stale/compare/v10...v11)
+  ---
+  updated-dependencies:
+  - dependency-name: actions/stale
+  dependency-version: '11'
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+  dependency-group: github-actions
+  ...
+  Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+* Bump actions/setup-python from 6 to 7 in the github-actions group (`#168 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/168>`_)
+  Bumps the github-actions group with 1 update: [actions/setup-python](https://github.com/actions/setup-python).
+  Updates `actions/setup-python` from 6 to 7
+  - [Release notes](https://github.com/actions/setup-python/releases)
+  - [Commits](https://github.com/actions/setup-python/compare/v6...v7)
+  ---
+  updated-dependencies:
+  - dependency-name: actions/setup-python
+  dependency-version: '7'
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+  dependency-group: github-actions
+  ...
+  Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+* Bump actions/checkout from 6 to 7 in the github-actions group (`#164 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/164>`_)
+  Bumps the github-actions group with 1 update: [actions/checkout](https://github.com/actions/checkout).
+  Updates `actions/checkout` from 6 to 7
+  - [Release notes](https://github.com/actions/checkout/releases)
+  - [Commits](https://github.com/actions/checkout/compare/v6...v7)
+  ---
+  updated-dependencies:
+  - dependency-name: actions/checkout
+  dependency-version: '7'
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+  dependency-group: github-actions
+  ...
+  Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+* upgrade CMake version. (`#159 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/159>`_)
+* Bump the github-actions group with 4 updates (`#154 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/154>`_)
+  Bumps the github-actions group with 4 updates: [actions/checkout](https://github.com/actions/checkout), [actions/setup-python](https://github.com/actions/setup-python), [actions/create-github-app-token](https://github.com/actions/create-github-app-token) and [actions/github-script](https://github.com/actions/github-script).
+  Updates `actions/checkout` from 3 to 6
+  - [Release notes](https://github.com/actions/checkout/releases)
+  - [Commits](https://github.com/actions/checkout/compare/v3...v6)
+  Updates `actions/setup-python` from 5 to 6
+  - [Release notes](https://github.com/actions/setup-python/releases)
+  - [Commits](https://github.com/actions/setup-python/compare/v5...v6)
+  Updates `actions/create-github-app-token` from 2.1.1 to 3.2.0
+  - [Release notes](https://github.com/actions/create-github-app-token/releases)
+  - [Changelog](https://github.com/actions/create-github-app-token/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/actions/create-github-app-token/compare/a8d616148505b5069dccd32f177bb87d7f39123b...bcd2ba49218906704ab6c1aa796996da409d3eb1)
+  Updates `actions/github-script` from 7.0.1 to 9.0.0
+  - [Release notes](https://github.com/actions/github-script/releases)
+  - [Commits](https://github.com/actions/github-script/compare/60a0d83039c74a4aee543508d2ffcb1c3799cdea...3a2844b7e9c422d3c10d287c895573f7108da1b3)
+  ---
+  updated-dependencies:
+  - dependency-name: actions/checkout
+  dependency-version: '6'
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+  dependency-group: github-actions
+  - dependency-name: actions/setup-python
+  dependency-version: '6'
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+  dependency-group: github-actions
+  - dependency-name: actions/create-github-app-token
+  dependency-version: 3.2.0
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+  dependency-group: github-actions
+  - dependency-name: actions/github-script
+  dependency-version: 9.0.0
+  dependency-type: direct:production
+  update-type: version-update:semver-major
+  dependency-group: github-actions
+  ...
+  Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+* enable dependabot. (`#151 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/151>`_)
+* adjust the readme with rcl_logging_implementation. (`#146 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/146>`_)
+* Contributors: Daisuke Kato, Tomoya Fujita, dependabot[bot]
+
 0.1.2 (2026-02-20)
 ------------------
 * update doc with rcl_logging_implementation support. (`#138 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/138>`_)
