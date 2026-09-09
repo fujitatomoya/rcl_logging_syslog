@@ -2,8 +2,8 @@
 Changelog for package rcl_logging_syslog
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2026-09-09)
+------------------
 * mergify: do not auto-backport when an explicit backport-* label is set (`#224 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/224>`_)
   The "automatic backport to all supported distribution" rule matched every
   merged PR based on rolling, so a PR labeled backport-lyrical (e.g. `#179 <https://github.com/fujitatomoya/rcl_logging_syslog/issues/179>`_)
