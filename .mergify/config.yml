@@ -1,29 +1,65 @@
-pull_request_rules:
-  - name: automatic backport to all supported distribution
-    description: |
-      This rule backports a PR to all supported distribution branches when it is merged,
-      unless an explicit backport-* label selects the target branches.
-    conditions:
-      - base=rolling
-      - merged
-      - label!=skip-backport  # Do not backport if this label exists
-      - -label~=^backport-  # Explicit backport-* labels take over (rules below)
-    actions:
-      backport:
-        branches:
-          - lyrical
-          - kilted
-          - jazzy
-          - humble
+# Backport policy for rcl_logging_syslog.
+#
+# The ABI check (.github/workflows/abi.yaml, ros2-abi-action) labels every PR
+# against rolling with either "ABI compatible" or "ABI break". Those labels
+# drive the backport flags below (REP-0009: released distributions must not
+# break ABI):
+#
+#   "ABI compatible" -> backport-all   -> backported to every supported distro
+#   "ABI break"      -> skip-backport  -> not backported anywhere
+#
+# Maintainers can still override by hand:
+#   - narrow the targets: remove backport-all and add backport-<distro>,
+#   - stop a backport:    add skip-backport,
+#   - force a backport of an ABI break: remove the "ABI break" label, then
+#     remove skip-backport and add the wanted backport-* label(s).
+# A PR that has no ABI verdict is not backported unless it is labeled.
 
-  - name: backport at reviewers discretion
+pull_request_rules:
+  - name: flag backport-all when the ABI check reports a compatible change
     description: |
-      This rule backports a PR to all supported distribution branches when it is labeled.
+      An ABI compatible change is safe for every released distribution, so it
+      is flagged for backport to all supported branches. Explicit backport-*
+      or skip-backport labels set by a maintainer are left untouched.
     conditions:
       - base=rolling
-      - "label=backport-all"
+      - "label=ABI compatible"
+      - "label!=ABI break"
+      - label!=skip-backport
+      - -label~=^backport-
+    actions:
+      label:
+        add:
+          - backport-all
+
+  - name: flag skip-backport when the ABI check reports a breaking change
+    description: |
+      An ABI breaking change must not land on a released distribution, so any
+      backport flag is cleared and the PR is marked skip-backport.
+    conditions:
+      - base=rolling
+      - "label=ABI break"
+    actions:
+      label:
+        add:
+          - skip-backport
+        remove:
+          - backport-all
+          - backport-lyrical
+          - backport-kilted
+          - backport-jazzy
+          - backport-humble
+
+  - name: backport to all supported distributions
+    description: |
+      This rule backports a PR to all supported distribution branches when it
+      is merged with the backport-all label (set by the ABI check or by hand).
+    conditions:
+      - base=rolling
+      - label=backport-all
       - merged
       - label!=skip-backport  # Do not backport if this label exists
+      - "label!=ABI break"    # Never backport an ABI breaking change
     actions:
       backport:
         branches:
@@ -37,9 +73,10 @@ pull_request_rules:
       This rule backports a PR to the lyrical distribution branch when it is labeled.
     conditions:
       - base=rolling
-      - "label=backport-lyrical"
+      - label=backport-lyrical
       - merged
       - label!=skip-backport  # Do not backport if this label exists
+      - "label!=ABI break"    # Never backport an ABI breaking change
     actions:
       backport:
         branches:
@@ -50,9 +87,10 @@ pull_request_rules:
       This rule backports a PR to the kilted distribution branch when it is labeled.
     conditions:
       - base=rolling
-      - "label=backport-kilted"
+      - label=backport-kilted
       - merged
       - label!=skip-backport  # Do not backport if this label exists
+      - "label!=ABI break"    # Never backport an ABI breaking change
     actions:
       backport:
         branches:
@@ -63,9 +101,10 @@ pull_request_rules:
       This rule backports a PR to the jazzy distribution branch when it is labeled.
     conditions:
       - base=rolling
-      - "label=backport-jazzy"
+      - label=backport-jazzy
       - merged
       - label!=skip-backport  # Do not backport if this label exists
+      - "label!=ABI break"    # Never backport an ABI breaking change
     actions:
       backport:
         branches:
@@ -76,9 +115,10 @@ pull_request_rules:
       This rule backports a PR to the humble distribution branch when it is labeled.
     conditions:
       - base=rolling
-      - "label=backport-humble"
+      - label=backport-humble
       - merged
       - label!=skip-backport  # Do not backport if this label exists
+      - "label!=ABI break"    # Never backport an ABI breaking change
     actions:
       backport:
         branches:
